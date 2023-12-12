@@ -1,0 +1,29 @@
+﻿@section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const apiKey = '5be53b358afc85bae0bf938bb7715b96'; // Buraya API anahtarınızı girin
+            getWeatherData(40.7128, -74.0060, 'weather-new-york', 'New York'); // New York için
+            getWeatherData(41.0082, 28.9784, 'weather-istanbul', 'İstanbul'); // İstanbul için
+
+            function getWeatherData(lat, lon, elementId, city) {
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const weatherInfo = `
+                            Şehir: ${city}
+                            Sıcaklık: ${data.main.temp}°C
+                            Hava Durumu: ${data.weather[0].main}
+                            Nem: ${data.main.humidity}%
+                        `;
+                        document.getElementById(elementId).innerHTML = weatherInfo;
+                    })
+                    .catch(error => {
+                        console.error(`${city} için hava durumu bilgilerine ulaşılamadı`, error);
+                        document.getElementById(elementId).innerHTML = 'Veri yüklenemedi';
+                    });
+            }
+        });
+    </script>
+}

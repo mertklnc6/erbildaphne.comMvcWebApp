@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    Layout = "_LayoutNews";
+}
+@model List<WriteViewModel>
+<!-- ====== start trends news ====== -->
+<section class="tc-trends-news-style1 pt-50 pb-50 bg-gray1">
+    <div class="container">
+        <div class="hot-trends-tabs-style1 mb-4">
+            <p class="color-999 text-uppercase ltspc-1 flex-shrink-0 me-4 pt-1">
+                <i class="ion-arrow-graph-up-right me-2"></i> Son Yazılar
+            </p>
+        </div>
+        <div class="section-content">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="tc-trends-news-slider1 tc-slider-style2">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                @foreach (var write in Model.OrderByDescending(m => m.CreatedDate).Take(3))
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="tc-post-overlay-default">
+                                            <div class="img th-650 img-cover">
+                                                <img src="@write.PictureUrl" alt="@write.Title">
+                                            </div>
+                                            <div class="content ps-40 pe-40 pb-40">
+                                                <h2 class="title mb-20">
+                                                    <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
+                                                        @write.Title
+                                                    </a>
+                                                </h2>
+                                                <div class="text mb-40">
+                                                    @write.Description
+                                                </div>
+                                                <div class="meta-bot lh-1">
+                                                    <ul class="d-flex">
+                                                        <li class="date me-5">
+                                                            <a href="#">
+                                                                <i class="la la-calendar me-2"></i> @write.CreatedDate.ToShortDateString()
+                                                            </a>
+                                                        </li>
+                                                        <li class="author me-5">
+                                                            <a href="#"><i class="la la-user me-2"></i> @write.AuthorId</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                        <!-- arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    @await Component.InvokeAsync("GNews")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end trends news ====== -->
+@await Component.InvokeAsync("Author")
+

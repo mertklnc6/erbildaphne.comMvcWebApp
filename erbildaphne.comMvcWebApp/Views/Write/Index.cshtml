@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Yazılar";
+}
+@{
+    Layout = "_LayoutNews";
+}
+@{    
+    List<AuthorViewModel> authorsList = ViewBag.Authors as List<AuthorViewModel>;
+}
+@model List<WriteViewModel>
+<!-- ====== start popular posts ====== -->
+<section class="tc-popular-posts-blog">
+    <div class="container">
+        <div class="content-widgets pt-50 pb-50">
+            <div class="row">
+                <div class="col-lg-9 pe-lg-5">                   
+                    <div class="tc-post-list-style3">
+                        <div class="items">
+                            @foreach(var item in Model)
+                            {                               
+                            
+                            <div class="item">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <div class="img th-230 img-cover overflow-hidden">
+                                            <img src="@item.PictureUrl" alt="@item.Title">
+                                                <a asp-action="Details" asp-controller="Write" asp-route-id="@item.Id" class=" icon-60 border-2">                                                
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="content mt-20 mt-lg-0">
+                                                
+                                                @foreach (var author in authorsList.Where(a => a.Id == item.AuthorId))
+                                                {                                              
+                                                
+                                                <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id" class="color-999 fsz-13px text-uppercase mb-10">@author.Name @author.Surname</a>
+                                                }
+                                            <h4 class="title fw-bold">
+                                                    <a asp-action="Details" asp-controller="Write" asp-route-id="@item.Id" class="hover-underline">
+                                                   @item.Title
+                                                </a>
+                                            </h4>
+                                            <div class="text color-666 mt-20">
+                                                    @item.Description
+                                            </div>
+                                            <div class="meta-bot fsz-13px color-666">
+                                                <ul class="d-flex">
+                                                    <li class="date me-5">
+                                                            <i class="la la-calendar me-2"></i> @item.CreatedDate.ToShortDateString()
+                                                    </li>                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+                            }
+                        </div>
+                    </div>                    
+                </div>
+                <div class="col-lg-3">
+                    <div class="widgets widgets-sticky mt-5 mt-lg-0">                      
+
+                      @await Component.InvokeAsync("GNews")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end popular posts ====== -->

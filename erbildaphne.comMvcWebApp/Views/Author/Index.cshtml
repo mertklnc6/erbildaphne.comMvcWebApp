@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Yazar";
+}
+
+@{
+    Layout = "_LayoutNews";
+}
+
+@model List<AuthorViewModel>
+
+
+<!-- ====== start popular posts ====== -->
+<section class="tc-popular-posts-blog">
+    <div class="container">
+        <div class="content-widgets pt-50 pb-50">
+            <div class="row">
+                @foreach(var author in Model)
+                {
+                    
+                
+                <div class="col-lg-9 pe-lg-5">
+                    <div class="tc-author-info-style1 mb-60">
+                        <div class="tc-author-card pb-50 border-1 border-bottom brd-gray">
+                            <div class="content d-block d-lg-flex">
+                                <div class="img img-cover icon-150 rounded-circle overflow-hidden flex-shrink-0 me-50 mt-20">
+                                    <img src="@author.ProfilePicUrl" alt="">
+                                </div>
+                                <div class="info">
+                                    <h5 class="title fsz-50px fw-bold">@author.Name @author.Surname</h5>
+                                    <small class="fsz-12px color-main text-uppercase"><a href="#">Politika, Yaşam Tarzı</a></small>
+                                    <div class="text fsz-15px color-666 mt-15">
+                                        @author.Bio
+                                    </div>
+                                    <div class="social-links mt-20 fsz-19px">
+                                        <a href="#" class="me-15"><i class="la la-twitter"></i></a>
+                                        <a href="#" class="me-15"><i class="la la-facebook-f"></i></a>
+                                        <a href="#" class="me-15"><i class="la la-instagram"></i></a>
+                                        <a href="#"><i class="la la-youtube"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                 
+                 
+                    
+                </div>
+                }
+                <div class="col-lg-3">
+                    <div class="widgets widgets-sticky mt-5 mt-lg-0">
+
+                       
+
+                       
+
+                        <!-- widget-adbox -->
+                        <div class="tc-widget-adbox-style1">
+                            <a asp-action="Contact" asp-controller="Home" class="img">
+                                <img src="/template/assets/img/banner12.png" alt="" class="">
+                            </a>
+                        </div>
+                                              
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end popular posts ====== -->

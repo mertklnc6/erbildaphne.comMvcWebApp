@@ -1,0 +1,41 @@
+﻿@model List<AuthorViewModel>
+<section class="tc-columnist-style1">
+    <div class="container">
+        <div class="content pt-50 pb-50 border-1 border-top brd-gray">
+            <p class="color-000 text-uppercase mb-40 ltspc-1 lh-1">
+                Yazarlarımız <i class="la la-angle-right ms-1"></i>
+            </p>
+            <div class="columnist-slider1 tc-slider-style1">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var author in Model)
+                        {
+                            <div class="swiper-slide">
+                                <div class="columnist-card d-flex align-items-center">
+                                    <div class="img img-cover icon-100 rounded-circle overflow-hidden flex-lg-shrink-0 me-4">
+                                        <img src="@author.ProfilePicUrl" alt="@author.Name">
+                                    </div>
+                                    <div class="info">
+                                        <h6 class="name fsz-20px mb-10">
+                                            @author.Name
+                                        </h6>
+                                        <div class="jop-title">
+                                            <small class="fsz-13px color-999"></small>
+                                            <p class="fsz-13px text-uppercase">Politika, Yaşam Tarzı</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+                <!-- arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end columnist ====== -->

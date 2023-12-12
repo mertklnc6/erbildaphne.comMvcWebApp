@@ -1,0 +1,473 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Metas -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="erbildaphne.com" />
+    <meta name="description" content="erbildaphne.com" />
+    <meta name="author" content="" />
+
+    <!-- Title  -->
+    <title>erbildaphne.com</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/template//template/assets/img/fav.png" title="Favicon" sizes="16x16" />
+
+    <!-- bootstrap 5 -->
+    <link rel="stylesheet" href="/template/assets/css/lib/bootstrap.min.css">
+
+    <!-- font family -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- ionicons icons  -->
+    <link rel="stylesheet" href="/template/assets/css/lib/ionicons.css">
+    <!-- line-awesome icons  -->
+    <link rel="stylesheet" href="/template/assets/css/lib/line-awesome.css">
+    <!-- animate css  -->
+    <link rel="stylesheet" href="/template/assets/css/lib/animate.css" />
+    <!-- fancybox popup  -->
+    <link rel="stylesheet" href="/template/assets/css/lib/jquery.fancybox.css" />
+    <!-- lity popup  -->
+    <link rel="stylesheet" href="/template/assets/css/lib/lity.css" />
+    <!-- swiper slider  -->
+    <link rel="stylesheet" href="/template/assets/css/lib/swiper.min.css" />
+
+    <!-- ====== main style ====== -->
+    <link rel="stylesheet" href="/template/assets/css/style.css" />
+    <title>erbildaphne.com</title>
+</head>
+
+<body class="home-style1">
+
+    <!-- ====== start loading page ====== -->
+    <div class="loading-page style1">
+        <div class="lad-cont">
+            <h2 class="loading loading01">                
+                <span>e</span>
+                <span>r</span>
+                <span>b</span>
+                <span>i</span>
+                <span>l</span>
+                <span>d</span>
+                <span>a</span>
+                <span>p</span>
+                <span>h</span>
+                <span>n</span>
+                <span>e</span>
+                <span>.</span>
+                <span>c</span>
+                <span>o</span>
+                <span>m</span>
+
+            </h2>
+            <small class="loading loading01">
+                <span>y</span>
+                <span>ü</span>
+                <span>k</span>
+                <span>l</span>
+                <span>e</span>
+                <span>n</span>
+                <span>i</span>
+                <span>y</span>
+                <span>o</span>
+                <span>r</span>
+            </small>
+        </div>
+    </div>
+    <!-- ====== end loading page ====== -->
+    <!-- ====== start navbar-container ====== -->
+    <div class="navbar-container">
+        <div class="container">
+            <!-- ====== start top navbar ====== -->
+            <div class="top-navbar style-1">
+                <div class="container p-0">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="date-weather mb-3 mb-lg-0">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <div class="item">
+                                            <div class="icon me-3 pt-1">
+                                                <i class="la la-calendar"></i>
+                                            </div>
+                                            <div class="inf">
+                                                @using System.Globalization
+                                                <div class="inf">
+                                                    <strong>@DateTime.Now.ToString("dddd", new CultureInfo("tr-TR"))</strong>
+                                                    <p>
+                                                        @DateTime.Now.Day.ToString("00")
+                                                        @DateTime.Now.ToString("MMMM", new CultureInfo("tr-TR"))
+                                                        @DateTime.Now.Year
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="item">
+                                            <div class="inf">
+                                                <div id="weather-new-york">
+                                                    Yükleniyor...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <a href="/Home/Index" class="logo-brand d-none d-lg-block">
+                                <img src="/template/assets/img/ed-light.png" alt="" class="dark-none">
+                                <img src="/template/assets/img/ed-dark.png" alt="" class="light-none">
+                            </a>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="sub-darkLight">
+                                <div class="row text-end align-items-center">
+                                    <div class="col-6">
+                                        <div class="item">
+                                            <div class="inf">
+                                                <div id="weather-istanbul">
+                                                    Yükleniyor...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="darkLight-btn">
+                                            <span class="icon active" id="light-icon">
+                                                <i class="la la-sun"></i>
+                                            </span>
+                                            <span class="icon" id="dark-icon">
+                                                <i class="la la-moon"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ====== end top navbar ====== -->
+            <!-- ====== start navbar ====== -->
+            <nav class="navbar navbar-expand-lg navbar-light style-1">
+                <div class="container p-0">
+                    <div class="mob-nav-toggles d-flex align-items-center justify-content-between">
+                        <button class="navbarList-icon me-lg-5" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                                role="button" aria-controls="offcanvasExample">
+                            <span></span>
+                            <span></span>
+                            
+                        </button>
+                        <a href="/Home/Index" class="logo-brand d-block d-lg-none w-50 my-4">
+                            <img src="/template/assets/img/ed-light.png" alt="" class="dark-none">
+                            <img src="/template/assets/img/ed-dark.png" alt="" class="light-none">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="Home">
+                                    Anasayfa
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="Write">
+                                    Özel Yazılar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="GNews">
+                                    Objektif Haberler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="Rumor">
+                                    Kuş Bakışı Söylentiler
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" asp-action="Index" asp-controller="Author" id="navbarDropdown1" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    Yazarlarımız
+                                </a>
+                                <ul class="dropdownMenu" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" asp-action="Details" asp-controller="Author" asp-route-id="1">Erbil Gunasti</a></li>
+                                    <li><a class="dropdown-item" asp-action="Details" asp-controller="Author" asp-route-id="2">Daphne Barak</a></li>
+                                </ul>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hakkımızda
+                                </a>
+                                <ul class="dropdownMenu" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" asp-action="About" asp-controller="Home">Biz Kimiz ?</a></li>
+                                    <li><a class="dropdown-item" asp-action="Contact" asp-controller="Home">İletişim</a></li>
+                                    
+                                </ul>
+                            </li>
+
+                           
+                           
+                        </ul>
+                        <div class="nav-side">                           
+                            <a href="#" class="icon-link search-btn-style1">
+                                <i class="la la-search fs-4 sOpen-btn"></i>
+                                <i class="la la-close fs-4 sClose-btn"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- ====== end navbar ====== -->
+            <!-- ====== start nav-search ====== -->
+            <div class="nav-search-style1">
+                <div class="row justify-content-center align-items-center gx-lg-5">
+                    <div class="col-lg-4">
+                        <div class="info">
+                            <h5> kategoriye <br> ya da başlığa göre ara... </h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <form class="form">
+                            <span class="color-777 fst-italic text-capitalize mb-2 fsz-13px">ara...</span>
+                            <div class="form-group">
+                                <span class="icon">
+                                    <i class="la la-search"></i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="erbil gunasti... ">
+                                <button type="submit">ara</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ====== end nav-search ====== -->
+        </div>
+    </div>
+    <!-- ====== start navbar-container ====== -->
+    <!--Contents-->
+    <main>
+        @await Component.InvokeAsync("Rumor")
+        @RenderBody()
+        <!-- ====== start modals ====== -->
+
+        <div class="offcanvas offcanvas-start sidebar-popup-style1" tabindex="-1" id="offcanvasExample"
+             aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <div class="logo">
+                    <img src="/template/assets/img/ed-light.png" alt="" class="dark-none">
+                    <img src="/template/assets/img/ed-dark.png" alt="" class="light-none">
+                </div>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Geri"></button>
+            </div>
+            <div class="offcanvas-body mt-4">
+                <h6 class="color-000 text-uppercase mb-15 ltspc-1">
+                    Hakkımızda <i class="la la-angle-right ms-1"></i>
+                </h6>
+                <div class="text">
+                    Amerika ve Avrupa başkentlerinin lüks yaşam tarzına özel bir pencere açıyoruz. Şöhret, güç ve servetin parıldayan dünyasına odaklanarak, size olağanüstü erişim ve derin içgörüler sunuyoruz. Bilgilendirici ve eğlenceli bir deneyim sunarak dedikodu ve ipuçlarını zamanında haberlerle birleştiriyoruz.
+                </div>
+
+                <div class="sidebar-categories mt-40">
+                    <h6 class="color-000 text-uppercase mb-30 ltspc-1">
+                        İçeriklerimiz <i class="la la-angle-right ms-1"></i>
+                    </h6>
+                    <a asp-action="Index" asp-controller="Write" class="cat-card">
+                        <div class="img img-cover">
+                            <img src="/template/assets/img/bussines/1.png" alt="">
+                        </div>
+                        <div class="info">
+                            <h5>Özel Yazılar</h5>
+                            <span class="num"></span>
+                        </div>
+                    </a>
+                    <a asp-action="Index" asp-controller="Rumor" class="cat-card">
+                        <div class="img img-cover">
+                            <img src="/template/assets/img/trend/3.png" alt="">
+                        </div>
+                        <div class="info">                            
+                            <h5>Kuş Bakışı Söylentiler</h5>
+                            <span class="num"></span>
+                        </div>
+                    </a>
+                    <a asp-action="Index" asp-controller="GNews" class="cat-card">
+                        <div class="img img-cover">
+                            <img src="/template/assets/img/must_read/3.png" alt="">
+                        </div>
+                        <div class="info">
+                            <h5>Objektif Haberler</h5>
+                            <span class="num"></span>
+                        </div>
+                    </a>                   
+                </div>
+                <div class="sidebar-contact-info mt-50">
+                    <h6 class="color-000 text-uppercase mb-20 ltspc-1">
+                        İletişim ve İşbirliği İçin <i class="la la-angle-right ms-1"></i>
+                    </h6>
+                    <ul class="m-0">
+                       
+                        <li class="mb-3">
+                            <i class="las la-envelope me-2 color-main fs-5"></i>
+                            <a href="#">edkusbakisi@gmail.com</a>
+                        </li>
+                        
+                    </ul>
+                    <div class="social-links">
+                        <a href="x.com/erbildaphne">
+                            <i class="la la-twitter"></i>
+                        </a>                      
+                       
+                        <a href="youtube.com/@@erbildaphne">
+                            <i class="la la-youtube"></i>
+                        </a>
+                        <a href="#">
+                            <i class="la la-spotify"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====== end modals ====== -->
+    </main>
+    <!--End-Contents-->   
+    <!-- ====== start footer ====== -->
+    <footer class="footer-style1">
+        <div class="container">
+            <div class="tc-subscribe-style1">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-10">
+                        <div class="sub-info">
+                            <h5>Abonelere Özel İçerikler ve Abonelik Sistemimiz Çok Yakında!</h5>                            
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="row gx-lg-5">
+                    <div class="col-lg-6">
+                        <div class="info">
+                            <div class="foot-logo">
+                                <img src="/template/assets/img/ed-light.png" alt="" class="dark-none">
+                                <img src="/template/assets/img/ed-dark.png" alt="" class="light-none">
+                            </div>
+                            <div class="data-info">
+                                <p>
+                                    <b>Info :</b> erbildaphne.com
+                                </p>
+
+                                <p>
+                                    <b> Adres : </b> <br>United States
+                                </p>
+                                <p>
+                                    <b> Email : </b> support@erbildaphne.com
+                                </p>
+
+                            </div>
+
+                            <div class="social-links">
+                                <a href="x.com/erbildaphne">
+                                    <i class="la la-twitter"></i>
+                                </a>                               
+                                
+                                <a href="youtube.com/@@erbildaphne">
+                                    <i class="la la-youtube"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="la la-spotify"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="link-group">
+                            <div class="title">İçeriklerimiz</div>
+                            <ul>
+                                <li>
+                                    <a href="#" class="f-link">Özel Yazılar</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="f-link">Kuş Bakışı Söylentiler</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="f-link">Objektif Haberler</a>
+                                </li>                                
+                            </ul>
+                        </div>                       
+                    </div>                   
+                    <div class="col-lg-3">                       
+                        <div class="link-group">
+                            <div class="title">Yardım Merkezi</div>
+                            <ul>
+                                <li>
+                                    <a href="#" class="f-link">Hakkımızda</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="f-link">İletişim</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="f-link">Ekibimiz</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="f-link">Gizlilik Politikası</a>
+                                </li>                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="foot text-center py-4 border-1 border-top brd-gray">
+                <p class="fsz-13px color-666">
+                    ©2023 <a href="#" class="color-000">erbildaphne.com</a>  Tüm Hakları Saklıdır.
+                </p>
+            </div>
+        </div>
+        <!-- ====== start to top button ====== -->
+        <a href="#" class="to_top">
+            <i class="la la-angle-up"></i>
+        </a>
+        <!-- ====== end to top button ====== -->
+    </footer>
+    <!-- ====== end footer ====== -->
+
+    <!-- ====== start to top button ====== -->
+    <!-- <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102"><path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 220.587;"></path></svg>
+    </div> -->
+    <!-- ====== end to top button ====== -->
+    <!-- ====== request ====== -->
+    <script src="/template/assets/js/lib/jquery-3.0.0.min.js"></script>
+    <script src="/template/assets/js/lib/jquery-migrate-3.0.0.min.js"></script>
+    <script src="/template/assets/js/lib/bootstrap.bundle.min.js"></script>
+    <script src="/template/assets/js/lib/wow.min.js"></script>
+    <script src="/template/assets/js/lib/jquery.fancybox.js"></script>
+    <script src="/template/assets/js/lib/lity.js"></script>
+    <script src="/template/assets/js/lib/swiper.min.js"></script>
+    <script src="/template/assets/js/lib/jquery.waypoints.min.js"></script>
+    <script src="/template/assets/js/lib/jquery.counterup.js"></script>
+    <!-- <script src="/template/assets/js/lib/pace.js"></script> -->
+    <script src="/template/assets/js/lib/back-to-top.js"></script>
+    <script src="/template/assets/js/lib/parallaxie.js"></script>
+    <script src="/template/assets/js/main.js"></script>    
+    <script src="/template/assets/js/lib/weather.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>
