@@ -4,6 +4,9 @@
 @{
     Layout = "_LayoutNews";
 }
+@{
+    List<AuthorViewModel> authorsList = ViewBag.Authors as List<AuthorViewModel>;
+}
 @model List<WriteViewModel>
 <!-- ====== start trends news ====== -->
 <section class="tc-trends-news-style1 pt-50 pb-50 bg-gray1">
@@ -19,8 +22,10 @@
                     <div class="tc-trends-news-slider1 tc-slider-style2">
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
-                                @foreach (var write in Model.OrderByDescending(m => m.CreatedDate).Take(3))
+                                @foreach (var write in Model.OrderByDescending(m => m.CreatedDate).Take(5))
                                 {
+                                    if (!write.IsDeleted && write.IsPublished)
+                                    {
                                     <div class="swiper-slide">
                                         <div class="tc-post-overlay-default">
                                             <div class="img th-650 img-cover">
@@ -39,17 +44,25 @@
                                                     <ul class="d-flex">
                                                         <li class="date me-5">
                                                             <a href="#">
-                                                                <i class="la la-calendar me-2"></i> @write.CreatedDate.ToShortDateString()
+                                                                    <i class="la la-calendar me-2"></i> @write.CreatedDate.ToString("ddMMyyyy")
                                                             </a>
                                                         </li>
-                                                        <li class="author me-5">
-                                                            <a href="#"><i class="la la-user me-2"></i> @write.AuthorId</a>
-                                                        </li>
+                                                            @foreach(var author in authorsList)
+                                                            {
+                                                                if(author.Id == write.AuthorId)
+                                                                {
+                                                                    <li class="author me-5">
+                                                                        <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id"><i class="la la-user me-2"></i> @author.Name</a>
+                                                                    </li>
+                                                                }
+                                                            }
+                                                           
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                }
                                 }
 
 
@@ -63,6 +76,11 @@
                 <div class="col-lg-3">
                     @await Component.InvokeAsync("GNews")
                 </div>
+            </div>
+            <div>
+                <a asp-action="Index" asp-controller="Write" >
+                    <span>Tüm yazılar...</span>
+                </a>
             </div>
         </div>
     </div>

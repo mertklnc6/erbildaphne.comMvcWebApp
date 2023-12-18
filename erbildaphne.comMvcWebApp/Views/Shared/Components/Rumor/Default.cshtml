@@ -1,43 +1,45 @@
-﻿
-@model List<RumorViewModel>
+﻿@model List<RumorViewModel>
 
 <!-- ====== start breaking news ====== -->
 <section class="tc-breaking-news-style1 pt-50 pb-50">
     <div class="container">
-        <p class="color-999 text-uppercase mb-30 ltspc-1">kuş bakışı söylentiler</p>
+        <a asp-action="Index" asp-controller="Rumor" class="color-999 text-uppercase mb-30 ltspc-1">kuş bakışı söylentiler</a>
         <div class="tc-post-grid-default">
             <div class="tc-slider-style1">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         @foreach (var rumor in Model.OrderByDescending(m => m.CreatedDate).Take(4))
                         {
-                            <div class="swiper-slide">
-                                <a href="page-single-post-creative.html" class="item d-block">
-                                    <div class="row gx-4 align-items-center">
-                                        <div class="col-4">
-                                            <div class="img icon-100 rounded-circle overflow-hidden flex-lg-shrink-0 me-4 img-cover">
-                                                <img src="@rumor.PictureUrl" alt="">
+                            @if (rumor.IsPublished && !rumor.IsDeleted)
+                            {
+                                <div class="swiper-slide">
+                                    <a asp-action="Details" asp-controller="Rumor" asp-route-id="@rumor.Id" class="item d-block">
+                                        <div class="row gx-4 align-items-center">
+                                            <div class="col-4">
+                                                <div class="img icon-100 rounded-circle overflow-hidden flex-lg-shrink-0 me-4 img-cover">
+                                                    <img src="@rumor.PictureUrl" alt="">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-8">
-                                            <div class="content">
-                                                <h5 class="title">@rumor.Title</h5>
-                                                <div class="meta-bot mt-10">
-                                                    <ul>
-                                                        <li class="date">
-                                                            <i class="la la-clock"></i> @rumor.CreatedDate.ToShortDateString()
-                                                        </li>
-                                                    </ul>
+                                            <div class="col-8">
+                                                <div class="content">
+                                                    <h5 class="title">@rumor.Title</h5>
+                                                    <div class="meta-bot mt-10">
+                                                        <ul>
+                                                            <li class="date">
+                                                                <i class="la la-clock"></i> @rumor.CreatedDate.ToShortDateString()
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            }
                         }
-                        
 
-                        
+
+
                     </div>
                 </div>
                 <!-- arrows -->

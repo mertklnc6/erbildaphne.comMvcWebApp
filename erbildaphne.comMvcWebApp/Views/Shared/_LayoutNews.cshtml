@@ -14,7 +14,7 @@
     <title>erbildaphne.com</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/template//template/assets/img/fav.png" title="Favicon" sizes="16x16" />
+    <link rel="shortcut icon" href="/template/assets/img/edlogo.png" title="Favicon" sizes="16x16" />
 
     <!-- bootstrap 5 -->
     <link rel="stylesheet" href="/template/assets/css/lib/bootstrap.min.css">
@@ -110,7 +110,7 @@
                                     <div class="col-6">
                                         <div class="item">
                                             <div class="inf">
-                                                <div id="weather-new-york">
+                                                <div id="weather-california">
                                                     Yükleniyor...
                                                 </div>
                                             </div>
@@ -204,7 +204,7 @@
                                 </a>
                                 <ul class="dropdownMenu" aria-labelledby="navbarDropdown1">
                                     <li><a class="dropdown-item" asp-action="Details" asp-controller="Author" asp-route-id="1">Erbil Gunasti</a></li>
-                                    <li><a class="dropdown-item" asp-action="Details" asp-controller="Author" asp-route-id="2">Daphne Barak</a></li>
+                                    <li><a class="dropdown-item" asp-action="Details" asp-controller="Author" asp-route-id="4">Daphne Barak</a></li>
                                 </ul>
                             </li>
                             
@@ -222,40 +222,11 @@
 
                            
                            
-                        </ul>
-                        <div class="nav-side">                           
-                            <a href="#" class="icon-link search-btn-style1">
-                                <i class="la la-search fs-4 sOpen-btn"></i>
-                                <i class="la la-close fs-4 sClose-btn"></i>
-                            </a>
-                        </div>
+                        </ul>                        
                     </div>
                 </div>
             </nav>
-            <!-- ====== end navbar ====== -->
-            <!-- ====== start nav-search ====== -->
-            <div class="nav-search-style1">
-                <div class="row justify-content-center align-items-center gx-lg-5">
-                    <div class="col-lg-4">
-                        <div class="info">
-                            <h5> kategoriye <br> ya da başlığa göre ara... </h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <form class="form">
-                            <span class="color-777 fst-italic text-capitalize mb-2 fsz-13px">ara...</span>
-                            <div class="form-group">
-                                <span class="icon">
-                                    <i class="la la-search"></i>
-                                </span>
-                                <input type="text" class="form-control" placeholder="erbil gunasti... ">
-                                <button type="submit">ara</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- ====== end nav-search ====== -->
+            <!-- ====== end navbar ====== -->           
         </div>
     </div>
     <!-- ====== start navbar-container ====== -->
@@ -328,11 +299,11 @@
                         
                     </ul>
                     <div class="social-links">
-                        <a href="x.com/erbildaphne">
+                        <a href="http://x.com/erbildaphne">
                             <i class="la la-twitter"></i>
                         </a>                      
                        
-                        <a href="youtube.com/@@erbildaphne">
+                        <a href="http://youtube.com/@@erbildaphne">
                             <i class="la la-youtube"></i>
                         </a>
                         <a href="#">
@@ -381,16 +352,13 @@
                             </div>
 
                             <div class="social-links">
-                                <a href="x.com/erbildaphne">
+                                <a href="http://x.com/erbildaphne">
                                     <i class="la la-twitter"></i>
                                 </a>                               
                                 
-                                <a href="youtube.com/@@erbildaphne">
+                                <a href="http://youtube.com/@@erbildaphne">
                                     <i class="la la-youtube"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="la la-spotify"></i>
-                                </a>
+                                </a>                               
                             </div>
                         </div>
                     </div>
@@ -399,13 +367,13 @@
                             <div class="title">İçeriklerimiz</div>
                             <ul>
                                 <li>
-                                    <a href="#" class="f-link">Özel Yazılar</a>
+                                    <a asp-action="Index" asp-controller="Write" class="f-link">Özel Yazılar</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="f-link">Kuş Bakışı Söylentiler</a>
+                                    <a asp-action="Index" asp-controller="Rumor" class="f-link">Kuş Bakışı Söylentiler</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="f-link">Objektif Haberler</a>
+                                    <a asp-action="Index" asp-controller="GNews" class="f-link">Objektif Haberler</a>
                                 </li>                                
                             </ul>
                         </div>                       
@@ -415,14 +383,11 @@
                             <div class="title">Yardım Merkezi</div>
                             <ul>
                                 <li>
-                                    <a href="#" class="f-link">Hakkımızda</a>
+                                    <a asp-action="About" asp-controller="Write" class="f-link">Hakkımızda</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="f-link">İletişim</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="f-link">Ekibimiz</a>
-                                </li>
+                                    <a asp-action="Contact" asp-controller="Write" class="f-link">İletişim</a>
+                                </li>                               
                                 <li>
                                     <a href="#" class="f-link">Gizlilik Politikası</a>
                                 </li>                                
@@ -434,7 +399,7 @@
 
             <div class="foot text-center py-4 border-1 border-top brd-gray">
                 <p class="fsz-13px color-666">
-                    ©2023 <a href="#" class="color-000">erbildaphne.com</a>  Tüm Hakları Saklıdır.
+                    ©2023 <a asp-action="Index" asp-controller="Write" class="color-000">erbildaphne.com</a>  Tüm Hakları Saklıdır.
                 </p>
             </div>
         </div>
@@ -465,8 +430,9 @@
     <script src="/template/assets/js/lib/back-to-top.js"></script>
     <script src="/template/assets/js/lib/parallaxie.js"></script>
     <script src="/template/assets/js/main.js"></script>    
-    <script src="/template/assets/js/lib/weather.js"></script>
+    <script src="/template/assets/js/lib/weather.js"></script>    
     @await RenderSectionAsync("Scripts", required: false)
+
 
 </body>
 

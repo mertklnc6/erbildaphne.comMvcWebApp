@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model RegisterViewModel
+<form asp-action="Register" method="post">
+    <input asp-for="Email" type="email" />
+    <span asp-validation-for="Email"></span>
+
+    <input asp-for="Password" type="password" />
+    <span asp-validation-for="Password"></span>
+
+    <button type="submit">Kayıt Ol</button>
+</form>

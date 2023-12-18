@@ -1,10 +1,15 @@
 ﻿
 using erbildaphne.comMvcWebApp.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace erbildaphne.comMvcWebApp.Controllers
 {
@@ -43,7 +48,10 @@ namespace erbildaphne.comMvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+            var token = HttpContext.Session.GetString("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
             var result = await http.GetAsync("rumor");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -56,83 +64,52 @@ namespace erbildaphne.comMvcWebApp.Controllers
             {
                 // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
                 return View("Error");
-            }            
+            }
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create(int id)
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Create()
         {
+            var token = HttpContext.Session.GetString("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
-            var result = await http.GetAsync("author");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
 
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var jsonData = await result.Content.ReadAsStringAsync();
-                var authors = JsonConvert.DeserializeObject<List<AuthorViewModel>>(jsonData);
-                ViewBag.Authors = new SelectList(authors, "Id", "Name");
-                return View(new RumorViewModel()); // Burada RumorViewModel nesnesi geçiriliyor.
-            }
-            else
-            {
-                return View("Error");
-            }
-
-
-
+            return View(new RumorViewModel()); // Burada RumorViewModel nesnesi geçiriliyor.
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(RumorViewModel model, IFormFile image)
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Create(RumorViewModel model)
         {
             // Resim yükleme
-            try
-            {
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads\\rumors");
 
-                if (!Directory.Exists(uploadPath))
-                {
-                    Directory.CreateDirectory(uploadPath);
-                }
 
-                string imageFileExtension = Path.GetExtension(image.FileName);
-                string uniqueImageFileName = $"{Guid.NewGuid()}{imageFileExtension}";
-                var imagePath = Path.Combine(uploadPath, uniqueImageFileName);
-
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-
-                model.PictureUrl = "/uploads/rumors/" + uniqueImageFileName;
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Bir hata oluştu: " + ex.Message);
-                return View(model);
-            }
 
             // API'ye model verisini gönderme
             try
             {
+                var token = HttpContext.Session.GetString("JWTToken");
                 var http = _httpClientFactory.CreateClient("Client");
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
                 var jsonContent = JsonConvert.SerializeObject(model);
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-
-
                 var result = await http.PostAsync("rumor", content);
+                var error = result.Content.ReadAsStringAsync();
 
                 if (result.IsSuccessStatusCode)
                 {
                     // Başarılı POST işleminden sonra yapılacak işlemler
-                    return RedirectToAction("Index");
+                    return RedirectToAction("List");
                 }
                 else
                 {
                     // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
-                    return View("Error");
+                    return RedirectToAction("List");
                 }
             }
             catch (Exception ex)
@@ -141,7 +118,170 @@ namespace erbildaphne.comMvcWebApp.Controllers
                 return View(model);
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var http = _httpClientFactory.CreateClient("Client");
+            var result = await http.GetAsync("rumor" + "/" + id.ToString());
 
 
-    }
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await result.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<RumorViewModel>(jsonData);
+                //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
+                return View(data);
+            }
+            else
+            {
+                // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Publish(int id)
+        {
+            var token = HttpContext.Session.GetString("JWTToken");
+            var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
+            var rumorResult = await http.GetAsync("rumor/" + id);
+
+            if (rumorResult.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var rumorJsonData = await rumorResult.Content.ReadAsStringAsync();
+                var rumorData = JsonConvert.DeserializeObject<RumorViewModel>(rumorJsonData);
+
+                // Yayın durumunu değiştir
+                rumorData.IsPublished = !rumorData.IsPublished;                
+
+                // Güncellenmiş veriyi JSON'a dönüştür
+                var jsonContent = JsonConvert.SerializeObject(rumorData);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                // API'ye güncellenmiş veriyi gönder
+                var updateResult = await http.PutAsync("rumor/" + id.ToString(), content);
+                var error = updateResult.Content.ReadAsStringAsync();
+
+                return RedirectToAction("List");
+
+            }
+
+            // Hata durumunda
+            return View("Error");
+        }
+
+        [HttpGet]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var token = HttpContext.Session.GetString("JWTToken");
+            var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
+            var rumorResult = await http.GetAsync("rumor/" + id);
+
+
+            if (rumorResult.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var rumorJsonData = await rumorResult.Content.ReadAsStringAsync();
+                var rumorData = JsonConvert.DeserializeObject<RumorViewModel>(rumorJsonData);
+
+                return View(rumorData);
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Edit(int id, RumorViewModel model)
+        {
+
+            if (id == model.Id)
+            {
+
+
+                var token = HttpContext.Session.GetString("JWTToken");
+                var http = _httpClientFactory.CreateClient("Client");
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
+                var rumorResult = await http.GetAsync("rumor/" + id);
+                var existing = await rumorResult.Content.ReadAsStringAsync();
+                var existingData = JsonConvert.DeserializeObject<RumorViewModel>(existing);
+                existingData.Title = model.Title;
+                existingData.Description = model.Description;
+                existingData.Content = model.Content;                
+                var jsonContent = JsonConvert.SerializeObject(existingData);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                var result = await http.PutAsync("rumor/" + id.ToString(), content);
+                var error = result.Content.ReadAsStringAsync();
+                return RedirectToAction("List");
+
+
+
+
+            }
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var token = HttpContext.Session.GetString("JWTToken");
+            var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
+            var rumorResult = await http.GetAsync("rumor/" + id);
+            var existing = await rumorResult.Content.ReadAsStringAsync();
+            var existingData = JsonConvert.DeserializeObject<RumorViewModel>(existing);
+            if (existingData.IsDeleted)
+            {
+                var result = await http.DeleteAsync("rumor/" + id.ToString());
+                var error = result.Content.ReadAsStringAsync();
+                return RedirectToAction("List");
+            }
+            else
+            {
+            
+            existingData.IsDeleted = true;
+            var jsonContent = JsonConvert.SerializeObject(existingData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var result2 = await http.PutAsync("rumor/" + id.ToString(), content);
+            var error = result2.Content.ReadAsStringAsync();
+            return RedirectToAction("List");
+            }
+
+        }
+
+        [HttpGet]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> RemoveDelete(int id)
+        {
+            var token = HttpContext.Session.GetString("JWTToken");
+            var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
+            var rumorResult = await http.GetAsync("rumor/" + id);
+            var existing = await rumorResult.Content.ReadAsStringAsync();
+            var existingData = JsonConvert.DeserializeObject<RumorViewModel>(existing);
+            if (existingData.IsDeleted)
+            {
+                existingData.IsDeleted = false;
+                var jsonContent = JsonConvert.SerializeObject(existingData);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                var result2 = await http.PutAsync("rumor/" + id.ToString(), content);
+                var error = result2.Content.ReadAsStringAsync();
+                return RedirectToAction("List");
+            }
+            return RedirectToAction("List");
+        }
+        
+
+        }
 }

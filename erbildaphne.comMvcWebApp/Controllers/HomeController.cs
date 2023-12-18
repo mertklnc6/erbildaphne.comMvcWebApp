@@ -22,10 +22,14 @@ namespace erbildaphne.comMvcWebApp.Controllers
             var http = _httpClientFactory.CreateClient("Client");
             //http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var result = await http.GetAsync("write");
+            var authorResult = await http.GetAsync("author");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<List<WriteViewModel>>(jsonData);
+                var jsonAuthor = await authorResult.Content.ReadAsStringAsync();
+                var authors = JsonConvert.DeserializeObject<List<AuthorViewModel>>(jsonAuthor);
+                ViewBag.Authors = authors;
                 //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
                 return View(data);
             }

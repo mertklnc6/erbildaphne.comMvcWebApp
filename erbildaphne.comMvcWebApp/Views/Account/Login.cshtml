@@ -1,0 +1,18 @@
+﻿@model LoginViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<form asp-action="Login" method="post">
+    <input asp-for="Email" type="email" />
+    <span asp-validation-for="Email"></span>
+
+    <input asp-for="Password" type="password" />
+    <span asp-validation-for="Password"></span>
+
+    <input asp-for="RememberMe" type="checkbox" />
+    <label asp-for="RememberMe">Beni Hatırla</label>
+
+    <button type="submit">Giriş Yap</button>
+</form>

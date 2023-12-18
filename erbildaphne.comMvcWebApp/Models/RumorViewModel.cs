@@ -10,8 +10,8 @@
         public string Description { get; set; }
         public string Content { get; set; }
 
-        public string PictureUrl { get; set; }
-
+        public string PictureUrl { get; set; } = "/uploads/rumors/rumorPp.png";
         public bool IsPublished { get; set; } = false;
+
     }
 }

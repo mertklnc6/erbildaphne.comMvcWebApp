@@ -1,0 +1,131 @@
+﻿@model IEnumerable<erbildaphne.comMvcWebApp.Models.GNewsViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Haberler</h1>
+
+<p>
+    <a asp-action="Create">Yeni Oluştur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>           
+            <th>
+                Fotoğraf
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSource)
+            </th>
+            <th>
+                Sol
+            </th>
+            <th>
+                Sağ
+            </th>
+            <th>
+               Merkez
+            </th>
+            <th>
+                Sol Yüzde
+            </th>
+            <th>
+                Sağ Yüzde
+            </th>
+            <th>
+                Merkez Yüzde
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            
+            <td>
+                <img width="50px" src="@item.PictureUrl" />
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSource)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaningLeft)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaningRight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaningCenter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeftPercentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RightPercentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CenterPercentage)
+            </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-controller="GNews" asp-route-id="@item.Id">Düzenle</a>
+                    @if (!item.IsPublished)
+                    {
+                        <a asp-action="Publish" asp-controller="GNews" asp-route-id="@item.Id" class="btn btn-success">Yayına Al</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Publish" asp-controller="GNews" asp-route-id="@item.Id" class="btn btn-secondary">Yayından Kaldır</a>
+                    }
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-action="Delete" asp-controller="GNews" asp-route-id="@item.Id" class="btn btn-danger">Kalıcı Olarak Sil</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Delete" asp-controller="GNews" asp-route-id="@item.Id" class="btn btn-warning">Sil</a>
+                    }
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-action="RemoveDelete" asp-controller="GNews" asp-route-id="@item.Id" class="btn btn-warning">Geri Al</a>
+                    }
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

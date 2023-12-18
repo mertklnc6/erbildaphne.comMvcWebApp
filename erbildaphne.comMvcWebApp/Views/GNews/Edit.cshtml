@@ -1,0 +1,75 @@
+﻿@model erbildaphne.comMvcWebApp.Models.GNewsViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Haberi Düzenle</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control" id="editor" placeholder="İçerik giriniz..."></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="LeaningLeft" class="control-label">Sol Kaynak Sayısı</label>
+                <input asp-for="LeaningLeft" class="form-control" />
+                <span asp-validation-for="LeaningLeft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaningCenter" class="control-label">Merkez Kaynak Sayısı</label>
+                <input asp-for="LeaningCenter" class="form-control" />
+                <span asp-validation-for="LeaningCenter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaningRight" class="control-label">Sağ Kaynak Sayısı</label>
+                <input asp-for="LeaningRight" class="form-control" />
+                <span asp-validation-for="LeaningRight" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="image" class="control-label">Haber Fotoğrafı: </label>
+                <input name="image" class="form-control" type="file" placeholder="Fotoğraf seçiniz" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Listeye Dön</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#editor'))
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+
+    }
+}

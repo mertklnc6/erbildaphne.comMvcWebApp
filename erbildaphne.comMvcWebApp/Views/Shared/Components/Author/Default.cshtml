@@ -10,22 +10,24 @@
                     <div class="swiper-wrapper">
                         @foreach (var author in Model)
                         {
+                            @if (!author.IsDeleted)
+                            {
                             <div class="swiper-slide">
                                 <div class="columnist-card d-flex align-items-center">
                                     <div class="img img-cover icon-100 rounded-circle overflow-hidden flex-lg-shrink-0 me-4">
-                                        <img src="@author.ProfilePicUrl" alt="@author.Name">
+                                        <img src="@author.PictureUrl" alt="@author.Name">
                                     </div>
                                     <div class="info">
                                         <h6 class="name fsz-20px mb-10">
                                             @author.Name
                                         </h6>
                                         <div class="jop-title">
-                                            <small class="fsz-13px color-999"></small>
-                                            <p class="fsz-13px text-uppercase">Politika, Yaşam Tarzı</p>
+                                            <small class="fsz-13px color-999"></small>                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        }
                         }
 
 

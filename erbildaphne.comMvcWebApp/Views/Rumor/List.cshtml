@@ -1,0 +1,78 @@
+﻿@model IEnumerable<erbildaphne.comMvcWebApp.Models.RumorViewModel>
+
+<p>
+    <a asp-action="Create">Yeni Oluştur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            
+           
+            
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>            
+           
+            
+            <td>
+                <a class="btn btn-primary" asp-action="Edit" asp-controller="Rumor" asp-route-id="@item.Id">Düzenle</a>
+                    @if (!item.IsPublished)
+                    {
+                        <a asp-action="Publish" asp-controller="Rumor" asp-route-id="@item.Id" class="btn btn-success">Yayına Al</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Publish" asp-controller="Rumor" asp-route-id="@item.Id" class="btn btn-secondary">Yayından Kaldır</a>
+                    }                    
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-action="Delete" asp-controller="Rumor" asp-route-id="@item.Id" class="btn btn-danger">Kalıcı Olarak Sil</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Delete" asp-controller="Rumor" asp-route-id="@item.Id" class="btn btn-warning">Sil</a>
+                    }
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-action="RemoveDelete" asp-controller="Rumor" asp-route-id="@item.Id" class="btn btn-warning">Geri Al</a>
+                    }
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

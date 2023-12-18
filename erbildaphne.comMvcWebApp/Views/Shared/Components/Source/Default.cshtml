@@ -1,0 +1,112 @@
+﻿@model List<GNewsSourceViewModel>
+
+<!-- ====== end columnist ====== -->
+<!-- ====== start google web stories ====== -->
+<section class="tc-google-stories-style1">
+    <div class="container">
+        <div class="section-content pt-70 pb-70 border-0 border-bottom brd-gray">
+            <p class="color-000 text-uppercase mb-30 ltspc-1">Sol Kaynaklar</p>
+            <div class="tc-google-stories-slider1 tc-slider-style1">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model)
+                        {
+                            @if (!item.IsDeleted)
+                            {
+                                @if (item.Side == "Left")
+                                {
+                                    <div class="swiper-slide">
+                                        <a href="https://@item.SiteUrl" class="story-item">
+                                            <div class="img img-cover">
+                                                <img src="@item.LogoUrl" alt="@item.Name">
+                                            </div>
+                                            <div class="title fsz-14px color-000 mt-10">
+                                                @item.Name
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <!-- arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end google web stories ====== -->
+<section class="tc-google-stories-style1">
+    <div class="container">
+        <div class="section-content pt-70 pb-70 border-0 border-bottom brd-gray">
+            <p class="color-000 text-uppercase mb-30 ltspc-1">Merkez Kaynaklar</p>
+            <div class="tc-google-stories-slider1 tc-slider-style1">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model)
+                        {
+                            @if (!item.IsDeleted)
+                            {
+                                @if (item.Side == "Center")
+                                {
+                                    <div class="swiper-slide">
+                                        <a href="https://@item.SiteUrl" class="story-item">
+                                            <div class="img img-cover">
+                                                <img src="@item.LogoUrl" alt="@item.Name">
+                                            </div>
+                                            <div class="title fsz-14px color-000 mt-10">
+                                                @item.Name
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <!-- arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end google web stories ====== -->
+<section class="tc-google-stories-style1">
+    <div class="container">
+        <div class="section-content pt-70 pb-70 border-0 border-bottom brd-gray">
+            <p class="color-000 text-uppercase mb-30 ltspc-1">Sağ Kaynaklar</p>
+            <div class="tc-google-stories-slider1 tc-slider-style1">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model)
+                        {
+                            @if (!item.IsDeleted)
+                            {
+                                @if (item.Side == "Right")
+                                {
+                                    <div class="swiper-slide">
+                                        <a href="https://@item.SiteUrl" target="_blank" class="story-item">
+                                            <div class="img img-cover">
+                                                <img src="@item.LogoUrl" alt="@item.Name">
+                                            </div>
+                                            <div class="title fsz-14px color-000 mt-10">
+                                                @item.Name
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <!-- arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end google web stories ====== -->

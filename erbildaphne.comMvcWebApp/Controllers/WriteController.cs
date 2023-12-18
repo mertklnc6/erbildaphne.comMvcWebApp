@@ -1,8 +1,11 @@
 ﻿
 using erbildaphne.comMvcWebApp.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
 using System.Text;
@@ -47,9 +50,13 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
         }
         [HttpGet]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> List()
         {
+            var token = HttpContext.Session.GetString("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
             var result = await http.GetAsync("write");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -66,9 +73,13 @@ namespace erbildaphne.comMvcWebApp.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(int id)
         {
+            var token = HttpContext.Session.GetString("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
             var result = await http.GetAsync("author");
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
@@ -89,6 +100,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
 
         [HttpPost]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(WriteViewModel model, IFormFile image)
         {
             // Resim yükleme
@@ -121,7 +133,10 @@ namespace erbildaphne.comMvcWebApp.Controllers
             // API'ye model verisini gönderme
             try
             {
+                var token = HttpContext.Session.GetString("JWTToken");
                 var http = _httpClientFactory.CreateClient("Client");
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
                 var jsonContent = JsonConvert.SerializeObject(model);
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -133,12 +148,12 @@ namespace erbildaphne.comMvcWebApp.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     // Başarılı POST işleminden sonra yapılacak işlemler
-                    return RedirectToAction("Index");
+                    return RedirectToAction("List");
                 }
                 else
                 {
                     // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
-                    return View("Error");
+                    return RedirectToAction("List");
                 }
             }
             catch (Exception ex)
@@ -147,6 +162,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                 return View(model);
             }
         }
+
 
         public async Task<IActionResult> Details(int id)
         {
@@ -173,9 +189,13 @@ namespace erbildaphne.comMvcWebApp.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id)
         {
+            var token = HttpContext.Session.GetString("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
             var writeResult = await http.GetAsync("write/" + id);
             var authorResult = await http.GetAsync("author");
 
@@ -196,58 +216,71 @@ namespace erbildaphne.comMvcWebApp.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Edit(int id, WriteViewModel model, IFormFile image)
+        [HttpPost]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Edit(int id, WriteViewModel model, IFormFile? image)
         {
-            if (image != null)
-            {
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads\\writes");
-
-                if (!Directory.Exists(uploadPath))
-                {
-                    Directory.CreateDirectory(uploadPath);
-                }
-
-                string imageFileExtension = Path.GetExtension(image.FileName);
-                string uniqueImageFileName = $"{Guid.NewGuid()}{imageFileExtension}";
-                var imagePath = Path.Combine(uploadPath, uniqueImageFileName);
-
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-
-                model.PictureUrl = "/uploads/writes/" + uniqueImageFileName;
-            }
-            try
+            if (id == model.Id)
             {
 
+
+                if (image != null)
+                {
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads\\writes");
+
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+                    string imageFileExtension = Path.GetExtension(image.FileName);
+                    string uniqueImageFileName = $"{Guid.NewGuid()}{imageFileExtension}";
+                    var imagePath = Path.Combine(uploadPath, uniqueImageFileName);
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    model.PictureUrl = "/uploads/writes/" + uniqueImageFileName;
+                }
+                //try
+                //{
+
+                var token = HttpContext.Session.GetString("JWTToken");
                 var http = _httpClientFactory.CreateClient("Client");
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
                 var jsonContent = JsonConvert.SerializeObject(model);
 
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result = await http.PutAsync("write/" + id, content);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result = await http.PutAsync("write/" + id, content);
+                    
+                    
+                    return RedirectToAction("List",result);
+                    
+                    
 
-                if (result.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("List");
-                }
-                else
-                {
-                    return View("Error");
-                }
+
+                //}
+                //catch (Exception ex)
+                //{
+                //    ModelState.AddModelError("", "API iletişiminde bir hata oluştu: " + ex.Message);
+                //    return View(model);
+                //}
+
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "API iletişiminde bir hata oluştu: " + ex.Message);
-                return View(model);
-            }
+            return View("Error");
         }
 
         [HttpGet]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Publish(int id)
         {
+            var token = HttpContext.Session.GetString("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+
             var writeResult = await http.GetAsync("write/" + id);
 
             if (writeResult.StatusCode == System.Net.HttpStatusCode.OK)
@@ -265,9 +298,9 @@ namespace erbildaphne.comMvcWebApp.Controllers
                 // API'ye güncellenmiş veriyi gönder
                 var updateResult = await http.PutAsync("write/" + id, content);
 
-                
+
                 return RedirectToAction("List");
-                
+
             }
 
             // Hata durumunda

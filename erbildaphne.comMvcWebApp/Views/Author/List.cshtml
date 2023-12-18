@@ -1,0 +1,110 @@
+﻿@model IEnumerable<erbildaphne.comMvcWebApp.Models.AuthorViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Fotoğraf
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Instagram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Website)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Linkedin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Facebook)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                   <img src="@item.PictureUrl" width="50px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Instagram)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Website)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linkedin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Facebook)
+                </td>
+
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-controller="Author" asp-route-id="@item.Id">Düzenle</a>
+
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-action="Delete" asp-controller="Author" asp-route-id="@item.Id" class="btn btn-danger">Kalıcı Olarak Sil</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Delete" asp-controller="Author" asp-route-id="@item.Id" class="btn btn-warning">Sil</a>
+                    }
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-action="RemoveDelete" asp-controller="Author" asp-route-id="@item.Id" class="btn btn-warning">Geri Al</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

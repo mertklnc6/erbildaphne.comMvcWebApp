@@ -5,7 +5,7 @@ function getWeatherIconUrl(iconCode) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const apiKey = '5be53b358afc85bae0bf938bb7715b96'; // API anahtarınız
-    getWeatherData(40.7128, -74.0060, 'weather-new-york', 'New York');
+    getWeatherData(36.7783, -119.4179, 'weather-california', 'California');
     getWeatherData(41.0082, 28.9784, 'weather-istanbul', 'İstanbul');
 
     function translateWeatherCondition(condition) {

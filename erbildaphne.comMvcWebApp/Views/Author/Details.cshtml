@@ -9,101 +9,123 @@
 @{
     List<WriteViewModel> writesList = ViewBag.Writes as List<WriteViewModel>;
 }
-
+    {
 <!-- ====== start popular posts ====== -->
 <section class="tc-popular-posts-blog">
     <div class="container">
-        <div class="content-widgets pt-50 pb-50">
-            <div class="row">
-                <div class="col-lg-9 pe-lg-5">
-                    <div class="tc-author-info-style1 mb-60">
-                        <div class="tc-author-card pb-50 border-1 border-bottom brd-gray">
-                            <div class="content d-block d-lg-flex">
-                                <div class="img img-cover icon-150 rounded-circle overflow-hidden flex-shrink-0 me-50 mt-20">
-                                    <img src="@Model.ProfilePicUrl" alt="">
-                                </div>
-                                <div class="info">
-                                    <h5 class="title fsz-50px fw-bold">@Model.Name @Model.Surname</h5>
-                                    <small class="fsz-12px color-main text-uppercase"><a href="#">Politika, Yaşam Tarzı</a></small>
-                                    <div class="text fsz-15px color-666 mt-15">
-                                        @Model.Bio
+        @if (!Model.IsDeleted)
+        {
+
+
+            <div class="content-widgets pt-50 pb-50">
+                <div class="row">
+                    <div class="col-lg-9 pe-lg-5">
+                        <div class="tc-author-info-style1 mb-60">
+                            <div class="tc-author-card pb-50 border-1 border-bottom brd-gray">
+                                <div class="content d-block d-lg-flex">
+                                    <div class="img img-cover icon-150 rounded-circle overflow-hidden flex-shrink-0 me-50 mt-20">
+                                        <img src="@Model.PictureUrl" alt="@Model.Name">
                                     </div>
-                                    <div class="social-links mt-20 fsz-19px">
-                                        <a href="#" class="me-15"><i class="la la-twitter"></i></a>
-                                        <a href="#" class="me-15"><i class="la la-facebook-f"></i></a>
-                                        <a href="#" class="me-15"><i class="la la-instagram"></i></a>
-                                        <a href="#"><i class="la la-youtube"></i></a>
+                                    <div class="info">
+                                        <h5 class="title fsz-50px fw-bold">@Model.Name</h5>
+                                        <small class="fsz-12px color-main text-uppercase"></small>
+                                        <div class="text fsz-15px color-666 mt-15">
+                                            @Model.Description
+                                        </div>
+                                        <div class="text fsz-15px color-666 mt-15">
+                                            @Html.Raw(Model.Bio)
+                                        </div>
+                                        <div class="social-links mt-20 fsz-19px">
+                                            <a href="https://@Model.Instagram" target="_blank" class="me-15"><i class="la la-instagram"></i></a>
+                                            <a href="https://@Model.Facebook" target="_blank" class="me-15"><i class="la la-facebook-f"></i></a>
+                                            <a href="https://@Model.Linkedin" target="_blank" class="me-15"><i class="la la-linkedin"></i></a>
+                                            <a href="https://@Model.Website" target="_blank"><i class="la la-link"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                 
-                    <div class="tc-post-list-style3">
-                        <div class="items">
-                            @foreach(var item in writesList){
-                                
+                        <h4>Yazılar</h4>
+                        <br />
+                        <br />
+                        <hr />
+                        <br />
+                        <div class="tc-post-list-style3">
                             
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="img th-230 img-cover overflow-hidden">
-                                            <img src="@item.PictureUrl" alt="">
-                                            <a asp-action="Details" asp-controller="Writes" asp-route-id="@item.Id" data-lity="" class="video_icon icon-60 border-2">
-                                                <i class="ion-play fsz-20px"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="content mt-20 mt-lg-0">
-                                            <a href="#" class="color-999 fsz-13px text-uppercase mb-10">politics</a>
-                                            <h4 class="title fw-bold">
-                                                    <a a asp-action="Details" asp-controller="Writes" asp-route-id="@item.Id" class="hover-underline">
-                                                    @item.Title
-                                                </a>
-                                            </h4>
-                                            <div class="text color-666 mt-20">
-                                                @item.Description
+
+                            <div class="items">
+                                @foreach (var item in writesList)
+                                {
+                                    if (!item.IsDeleted && item.IsPublished)
+                                    {
+
+                                        if (item.AuthorId == Model.Id && item.IsPublished && !item.IsDeleted)
+                                        {
+                                            <div class="item">
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <div class="img th-230 img-cover overflow-hidden">
+                                                            <img src="@item.PictureUrl" alt="">
+                                                            <a asp-action="Details" asp-controller="Writes" asp-route-id="@item.Id" data-lity="">
+                                                               
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="content mt-20 mt-lg-0">                                                            
+                                                            <h4 class="title fw-bold">
+                                                                <a a asp-action="Details" asp-controller="Writes" asp-route-id="@item.Id" class="hover-underline">
+                                                                    @item.Title
+                                                                </a>
+                                                            </h4>
+                                                            <div class="text color-666 mt-20">
+                                                                @item.Description
+                                                            </div>
+                                                            <div class="meta-bot fsz-13px color-666">
+                                                                <ul class="d-flex">
+                                                                    <li class="date me-5">
+                                                                        @item.CreatedDate.ToShortDateString()
+                                                                    </li>
+                                                                    <li class="author me-5">
+                                                                        <a asp-action="Details" asp-controller="Author" asp-route-id="@item.Id"><i class="la la-user me-2"></i>  </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="meta-bot fsz-13px color-666">
-                                                <ul class="d-flex">
-                                                    <li class="date me-5">
-                                                       @item.CreatedDate.ToShortDateString()
-                                                    </li>
-                                                    <li class="author me-5">
-                                                        <a asp-action="Details" asp-controller="Author" asp-route-id="@item.Id"><i class="la la-user me-2"></i>  </a>
-                                                    </li>                                                    
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        }
+                                    }
+                                }
                             </div>
-                            }
                         </div>
+
                     </div>
-                    
-                </div>
-                <div class="col-lg-3">
-                    <div class="widgets widgets-sticky mt-5 mt-lg-0">
+                    <div class="col-lg-3">
+                        <div class="widgets widgets-sticky mt-5 mt-lg-0">
 
-                       
 
-                       
 
-                        <!-- widget-adbox -->
-                        <div class="tc-widget-adbox-style1">
-                            <a asp-action="Contact" asp-controller="Home" class="img">
-                                <img src="/template/assets/img/banner12.png" alt="" class="">
-                            </a>
+
+
+                            <!-- widget-adbox -->
+                            <div class="tc-widget-adbox-style1">
+                                <a asp-action="Contact" asp-controller="Home" class="img">
+                                    <img src="/template/assets/img/banner12.png" alt="" class="">
+                                </a>
+                            </div>
+
+
+
                         </div>
-                                              
-
-                      
                     </div>
                 </div>
             </div>
+        }
         </div>
-    </div>
+        
+
+        
 </section>
 <!-- ====== end popular posts ====== -->

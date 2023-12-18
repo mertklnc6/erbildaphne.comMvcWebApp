@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Yazı Detay";
+}
+@{
+    Layout = "_LayoutNews";
+}
+@model RumorViewModel
+
+
+@if (Model.IsPublished && !Model.IsDeleted)
+{
+    <!-- ====== start tc-main-post-style1 ====== -->
+    <section class="tc-main-post-style1 pb-60">
+        <div class="container">
+            <div class="tc-main-post-title pt-40 pb-40">
+                <div class="row">
+
+                    <div class="col-lg-8">
+                        <h4 class="title">Kuş Bakışı Söylenti</h4>
+                        <h2 class="title">@Model.Title</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="img th-230 flex-shrink-0 rounded-circle img-cover mb-50">
+                <img src="@Model.PictureUrl" alt="@Model.Title">
+            </div>
+            <div class="tc-main-post-content color-000">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="sharing">
+                            <p class="text-uppercase mb-20">Paylaş</p>
+                            <div class="share-icons">
+                                <ul>
+                                    <li><a href="#" onclick="shareOnTwitter();"><i class="la la-twitter"></i></a></li>
+                                    <li><a href="#" onclick="copyToClipboard();"><i class="la la-copy"></i></a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <h4 class="sub-title sm-content-width">
+                            @Model.Title
+                        </h4>
+                        <p class="info-text sm-content-width mt-40">
+                            @Model.Description
+                        </p>
+
+                        <div class="info-text-img mt-30">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <p class="info-text">
+                                        @Html.Raw(Model.Content)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ====== end tc-main-post-style ====== -->
+    <!-- ====== start banner18 ====== -->
+    <section class="banner18">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="content border-1 border-top border-bottom brd-gray pt-50 pb-50">
+                        <a asp-action="Contact" asp-controller="Home" class="d-block img-cover">
+                            <img src="/template/assets/img/banner18.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ====== end banner18 ====== -->
+    <!-- ====== start author info ====== -->
+
+    <section class="tc-author-info-style1 pb-60">
+        <div class="container">
+            <div class="tc-author-card border-1 border-top brd-gray">
+                <div class="content mt-50 p-50 d-block d-lg-flex bg-gray1">
+                    <div class="img img-cover icon-85 rounded-circle overflow-hidden flex-shrink-0 me-30">
+                        <img src="@Model.PictureUrl" alt="">
+                    </div>
+                    <div class="info">
+                        <h5 class="title fsz-24px fw-bold">Kuş Bakışı</h5>
+                        <small class="fsz-12px color-main text-uppercase">Söylenti</small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ====== end author info ====== -->
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            function shareOnTwitter() {
+                var url = window.location.href;
+                window.open('https://twitter.com/share?url=' + encodeURIComponent(url));
+            }
+
+            function copyToClipboard() {
+                var dummy = document.createElement('input');
+                document.body.appendChild(dummy);
+                dummy.value = window.location.href;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+
+                // SweetAlert2 ile uyarı mesajı gösterme
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Başarılı!',
+                    text: 'URL kopyalandı!',
+                    timer: 1500
+                });
+            }
+        </script>
+    }
+}
