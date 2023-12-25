@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using static System.Net.WebRequestMethods;
 
@@ -45,42 +46,68 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
 
         }
-        ////[Authorize(Roles = "admin")]
+
         [HttpGet]
         public async Task<IActionResult> List()
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var result = await http.GetAsync("author");
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+
+            if (roleClaims != null)
             {
-                var jsonData = await result.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<AuthorViewModel>>(jsonData);
-                //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
-                return View(data);
+                var result = await http.GetAsync("author");
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonData = await result.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<List<AuthorViewModel>>(jsonData);
+                    //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
+                    return View(data);
+                }
             }
             else
             {
                 // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
-                return View("Error");
+                return RedirectToAction("Login", "Account");
             }
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
-        ////[Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Create()
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            return View(new AuthorViewModel()); // Burada AuthorViewModel nesnesi geçiriliyor.
+            if (roleClaims != null)
+            {
+                return View(new AuthorViewModel());
+            }
+
+            return RedirectToAction("Login", "Account");
         }
 
 
         [HttpPost]
-        ////[Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Create(AuthorViewModel model, IFormFile image)
         {
             // Resim yükleme
@@ -115,26 +142,42 @@ namespace erbildaphne.comMvcWebApp.Controllers
             try
             {
                 var token = HttpContext.Session.GetString("JWTToken");
+
+                if (token == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+
                 var http = _httpClientFactory.CreateClient("Client");
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-                var jsonContent = JsonConvert.SerializeObject(model);
-
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                var result = await http.PostAsync("author", content);
-                var error = result.Content.ReadAsStringAsync();
-
-                if (result.IsSuccessStatusCode)
+                if (roleClaims != null)
                 {
-                    // Başarılı POST işleminden sonra yapılacak işlemler
-                    return RedirectToAction("List");
+                    var jsonContent = JsonConvert.SerializeObject(model);
+
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                    var result = await http.PostAsync("author", content);
+                    var error = result.Content.ReadAsStringAsync();
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        // Başarılı POST işleminden sonra yapılacak işlemler
+                        return RedirectToAction("List");
+                    }
+                    else
+                    {
+                        // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
+                        return RedirectToAction("List");
+                    }
                 }
-                else
-                {
-                    // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
-                    return RedirectToAction("List");
-                }
+
+
+                return RedirectToAction("Login", "Account");
+
+               
             }
             catch (Exception ex)
             {
@@ -151,7 +194,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                
+
                 var jsonData = await result.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<AuthorViewModel>(jsonData);
                 var writesResult = await http.GetAsync("write");
@@ -168,35 +211,51 @@ namespace erbildaphne.comMvcWebApp.Controllers
             }
         }
 
-        
+
 
         [HttpGet]
-        ////[Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Edit(int id)
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var authorResult = await http.GetAsync("author/" + id);
-
-
-            if (authorResult.StatusCode == System.Net.HttpStatusCode.OK)
+            if (roleClaims != null)
             {
-                var authorJsonData = await authorResult.Content.ReadAsStringAsync();
-                var authorData = JsonConvert.DeserializeObject<AuthorViewModel>(authorJsonData);
+                var authorResult = await http.GetAsync("author/" + id);
 
-                return View(authorData);
+
+                if (authorResult.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var authorJsonData = await authorResult.Content.ReadAsStringAsync();
+                    var authorData = JsonConvert.DeserializeObject<AuthorViewModel>(authorJsonData);
+
+                    return View(authorData);
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
-            else
-            {
-                return View("Error");
-            }
+
+
+            return RedirectToAction("Login", "Account");
+
+           
         }
 
         [HttpPost]
-        ////[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, AuthorViewModel model,IFormFile? image)
+
+        public async Task<IActionResult> Edit(int id, AuthorViewModel model, IFormFile? image)
         {
 
             if (id == model.Id)
@@ -224,20 +283,36 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
 
                 var token = HttpContext.Session.GetString("JWTToken");
+
+                if (token == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+
                 var http = _httpClientFactory.CreateClient("Client");
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-                var authorResult = await http.GetAsync("author/" + id);
-                var existing = await authorResult.Content.ReadAsStringAsync();
-                var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
-                existingData.Bio = model.Bio;
-                existingData.Description = model.Description;
-                existingData.Name = model.Name;
-                var jsonContent = JsonConvert.SerializeObject(existingData);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result = await http.PutAsync("author/" + id.ToString(), content);
-                var error = result.Content.ReadAsStringAsync();
-                return RedirectToAction("List");
+                if (roleClaims != null)
+                {
+                    var authorResult = await http.GetAsync("author/" + id);
+                    var existing = await authorResult.Content.ReadAsStringAsync();
+                    var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
+                    existingData.Bio = model.Bio;
+                    existingData.Description = model.Description;
+                    existingData.Name = model.Name;
+                    var jsonContent = JsonConvert.SerializeObject(existingData);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result = await http.PutAsync("author/" + id.ToString(), content);
+                    var error = result.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
+
+
+                return RedirectToAction("Login", "Account");
+
+                
 
 
 
@@ -247,56 +322,88 @@ namespace erbildaphne.comMvcWebApp.Controllers
         }
 
         [HttpGet]
-        ////[Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Delete(int id)
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var authorResult = await http.GetAsync("author/" + id);
-            var existing = await authorResult.Content.ReadAsStringAsync();
-            var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
-            if (existingData.IsDeleted)
+            if (roleClaims != null)
             {
-                var result = await http.DeleteAsync("author/" + id.ToString());
-                var error = result.Content.ReadAsStringAsync();
-                return RedirectToAction("List");
-            }
-            else
-            {
+                var authorResult = await http.GetAsync("author/" + id);
+                var existing = await authorResult.Content.ReadAsStringAsync();
+                var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
+                if (existingData.IsDeleted)
+                {
+                    var result = await http.DeleteAsync("author/" + id.ToString());
+                    var error = result.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
+                else
+                {
 
-                existingData.IsDeleted = true;
-                var jsonContent = JsonConvert.SerializeObject(existingData);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result2 = await http.PutAsync("author/" + id.ToString(), content);
-                var error = result2.Content.ReadAsStringAsync();
-                return RedirectToAction("List");
+                    existingData.IsDeleted = true;
+                    var jsonContent = JsonConvert.SerializeObject(existingData);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result2 = await http.PutAsync("author/" + id.ToString(), content);
+                    var error = result2.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
             }
+
+
+            return RedirectToAction("Login", "Account");
+
+            
 
         }
 
         [HttpGet]
-        ////[Authorize(Roles = "admin")]
+
         public async Task<IActionResult> RemoveDelete(int id)
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var authorResult = await http.GetAsync("author/" + id);
-            var existing = await authorResult.Content.ReadAsStringAsync();
-            var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
-            if (existingData.IsDeleted)
+            if (roleClaims != null)
             {
-                existingData.IsDeleted = false;
-                var jsonContent = JsonConvert.SerializeObject(existingData);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result2 = await http.PutAsync("author/" + id.ToString(), content);
-                var error = result2.Content.ReadAsStringAsync();
+                var authorResult = await http.GetAsync("author/" + id);
+                var existing = await authorResult.Content.ReadAsStringAsync();
+                var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
+                if (existingData.IsDeleted)
+                {
+                    existingData.IsDeleted = false;
+                    var jsonContent = JsonConvert.SerializeObject(existingData);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result2 = await http.PutAsync("author/" + id.ToString(), content);
+                    var error = result2.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
                 return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+
+
+            return RedirectToAction("Login", "Account");
+
+           
         }
 
 

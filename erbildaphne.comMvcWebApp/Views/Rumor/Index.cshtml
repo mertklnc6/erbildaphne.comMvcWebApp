@@ -18,7 +18,7 @@
                             {
                                 @if (item.IsPublished && !item.IsDeleted)
                                 {
-
+                                    <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
                                     <div class="item">
                                         <div class="row">
                                             <div class="col-lg-4">
@@ -48,6 +48,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    </a>
                                 }
                             }
 

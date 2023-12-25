@@ -2,17 +2,13 @@
 
 <div class="tc-post-list-style1">
     <div class="tc-post-title-style1">
-        <a asp-action="Index" asp-controller="GNews"> ABD Basınından </a>
+        <a asp-action="Index" asp-controller="GNews"> Dünya Basınından </a>
     </div>
     <div class="tc-post-overlay-default">
-        <div class="img th-85 img-cover">
-            <a asp-action="Index" asp-controller="GNews"></a>
-            <img src="/template/assets/img/objektif.png" alt=""></a>
-        </div>
-        <div class="content ps-20 pe-20 pb-20 text-white">
-            <a asp-action="Index" asp-controller="GNews"
-               class="text-uppercase fsz-16px mb-1">TARAFSIZ</a>            
-        </div>
+        <div>
+            <a asp-action="Index" asp-controller="GNews">
+            <img src="/template/assets/img/tarafli.png" alt=""></a>
+        </div>        
     </div>
     <div class="items">
         @foreach (var gNews in Model.OrderByDescending(m => m.CreatedDate).Take(3))
@@ -27,8 +23,7 @@
                             <img src="@gNews.PictureUrl" alt="@gNews.Title">
                         </div>
                         <br />
-                        <div class="content">
-                            <span class="fsz-12px color-999 text-uppercase mb-2">Objektif</span>
+                        <div class="content">                           
                             <h6 class="title">@gNews.Title</h6>
                         </div>
                     </div>
@@ -37,7 +32,7 @@
             }
         }
         <a asp-action="Index" asp-controller="GNews" class="fsz-13px color-999  pt-30 pb-30">
-            Tüm ABD Haberleri <i class="la la-angle-right"></i>
+            Tüm Haberler <i class="la la-angle-right"></i>
         </a>
     </div>
 </div>

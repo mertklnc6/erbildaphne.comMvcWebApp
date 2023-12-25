@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using erbildaphne.comMvcWebApp.Models;
 using Newtonsoft.Json;
 using System.Text;
+using NuGet.Common;
 
 namespace erbildaphne.comMvcWebApp.Controllers
 {
@@ -37,7 +38,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             var result = await http.PostAsync("account/register/", content);
-            var response = result.Content.ReadAsStringAsync();
+            var response = await result.Content.ReadAsStringAsync();
 
             if (result.IsSuccessStatusCode)
             {
@@ -84,9 +85,10 @@ namespace erbildaphne.comMvcWebApp.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Session.Remove("JWTToken");
             var http = _httpClientFactory.CreateClient("Client");
             await http.PostAsync("account/logout", null);
 

@@ -1,13 +1,55 @@
-﻿@{
-    Layout = "_Layout";
+﻿@model erbildaphne.comMvcWebApp.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model RegisterViewModel
-<form asp-action="Register" method="post">
-    <input asp-for="Email" type="email" />
-    <span asp-validation-for="Email"></span>
 
-    <input asp-for="Password" type="password" />
-    <span asp-validation-for="Password"></span>
+<h1>Kayıt Ol</h1>
 
-    <button type="submit">Kayıt Ol</button>
-</form>
+
+<hr />
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="w-100 wrapper">
+            <div class="w-100 auth-content mx-auto">
+                <div class="w-100 card">
+                    <div class="card-body text-center">                       
+                        <h6 class="mb-4 text-muted">Yeni Hesap Oluştur</h6>
+                        <form asp-action="Register" method="post">
+                            <div class="mb-3 text-start">
+                                <label asp-for="FirstName" class="form-label">Adınız: </label>
+                                <input asp-for="FirstName" type="text" class="form-control" placeholder="adınız..." required>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label asp-for="LastName" for="email" class="form-label">Email: </label>
+                                <input asp-for="LastName" type="email" class="form-control" placeholder="email..." required>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label asp-for="Password" class="control-label">Şifre: </label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger" placeholder="şifre..."></span>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label asp-for="ConfirmPassword" class="control-label">Şifre Tekrar: </label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger" placeholder="şifrenizi tekrar girin..."></span>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <input type="submit" value="Kayıt Ol" class="btn btn-primary shadow-2 mb-4" />
+                            </div>
+                        </form>
+
+
+                        <p class="mb-0 text-muted">Hesabınız var mı? <a class="btn btn-success" asp-action="Login" asp-controller="Account">Giriş Yap</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

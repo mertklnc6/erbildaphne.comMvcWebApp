@@ -177,9 +177,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -212,9 +210,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -247,9 +243,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 6000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -265,9 +259,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 6000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -283,9 +275,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: false,
         breakpoints: {
             0: {
@@ -320,9 +310,7 @@ $(document).ready(function() {
         observeParents: true,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 5000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -340,9 +328,7 @@ $(document).ready(function() {
         observeParents: true,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 5000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -358,9 +344,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -393,9 +377,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -428,9 +410,7 @@ $(document).ready(function() {
         navigation: false,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: false,
         breakpoints: {
             0: {
@@ -463,9 +443,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -498,9 +476,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -539,9 +515,7 @@ $(document).ready(function() {
         observeParents: true,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 5000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -557,9 +531,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -592,9 +564,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -632,9 +602,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: false,
         breakpoints: {
             0: {
@@ -667,9 +635,7 @@ $(document).ready(function() {
         navigation: false,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: false,
         breakpoints: {
             0: {
@@ -702,9 +668,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -737,9 +701,7 @@ $(document).ready(function() {
         },
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 4000,
-        },
+        autoplay: false,
         loop: true,
         breakpoints: {
             0: {
@@ -774,9 +736,7 @@ $(document).ready(function() {
         observeParents: true,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 5000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -794,9 +754,7 @@ $(document).ready(function() {
         observeParents: true,
         mousewheel: false,
         keyboard: true,
-        autoplay: {
-            delay: 5000,
-        },
+        autoplay: false,
         loop: true,
     });
 
@@ -1158,7 +1116,7 @@ $(document).ready(function() {
         navigation: false,
         mousewheel: false,
         keyboard: true,
-        autoplay: true,
+        autoplay: false,
         loop: false,
         scrollbar: {
             el: '.tc-breaking-news-slider2 .swiper-scrollbar',

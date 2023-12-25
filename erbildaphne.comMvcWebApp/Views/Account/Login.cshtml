@@ -3,16 +3,39 @@
 @{
     Layout = "_Layout";
 }
+<h1>Giriş Yap</h1>
 
-<form asp-action="Login" method="post">
-    <input asp-for="Email" type="email" />
-    <span asp-validation-for="Email"></span>
 
-    <input asp-for="Password" type="password" />
-    <span asp-validation-for="Password"></span>
-
-    <input asp-for="RememberMe" type="checkbox" />
-    <label asp-for="RememberMe">Beni Hatırla</label>
-
-    <button type="submit">Giriş Yap</button>
-</form>
+<hr />
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="wrapper">
+            <div style="width: 70%" class="mx-auto auth-content">
+                <div class="w-100 card">
+                    <div class="card-body text-center">
+                        <h6 class="mb-4 text-muted">Giriş Yap</h6>
+                        <form action="Login" method="post">
+                            <div class="mb-3 text-start">
+                                <label for="Email" class="form-label">Email</label>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="email..." required>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label for="Password" class="form-label">Şifre</label>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="şifre..." required>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <div class="form-check">
+                                    <input asp-for="RememberMe" class="form-check-input" name="remember" type="checkbox" value="" id="check1">
+                                    <label class="form-check-label" for="check1">
+                                        Beni Hatırla
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary shadow-2 mb-4">Giriş</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

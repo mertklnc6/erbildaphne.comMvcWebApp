@@ -1,71 +1,61 @@
 ﻿@model IEnumerable<erbildaphne.comMvcWebApp.Models.WriteViewModel>
 
-<p>
-    <a asp-action="Create">Yeni Oluştur</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorId)
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
-            </td>
-            
-            <td>
-                <a class="btn btn-primary" asp-action="Edit" asp-controller="Write" asp-route-id="@item.Id">Düzenle</a>
-                    @if (!item.IsPublished)
-                    {
-                        <a asp-action="Publish" asp-route-id="@item.Id" class="btn btn-success">Yayına Al</a>
-                    }
-                    else
-                    {
-                        <a asp-action="Publish" asp-route-id="@item.Id" class="btn btn-warning">Yayından Kaldır</a>
-                    }
-                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Write" asp-route-id="@item.Id">Sil</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container mt-3">
+    <p>
+        <a asp-action="Create" class="btn btn-success">Yeni Oluştur</a>
+    </p>
+
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Fotoğraf</th>                
+                <th>Oluşturulma Tarihi</th>
+                <th>Başlık</th>
+                <th>Açıklama</th>                
+                <th>Yazar ID</th>
+                <th>En Öne Çıkan</th>
+                <th>Öne Çıkanlar</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td><img width="50px" src="@item.PictureUrl" /></td>
+                    <td>@item.CreatedDate</td>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>                    
+                    <td>@item.AuthorId</td>
+                    <td>                       
+                       
+                        <a asp-action="Chose" asp-route-id="@item.Id" class="btn @(item.IsChosen ? "btn-warning" : "btn-success") btn-sm">
+                            @(item.IsChosen ?  "En Önden Geri Al" : "En Öne Çıkar")
+                        </a>
+                        
+                    </td>
+                    <td>
+                        <a asp-action="Boost" asp-route-id="@item.Id" class="btn @(item.IsBoosted ? "btn-warning" : "btn-success") btn-sm">
+                            @(item.IsBoosted ? "Öne Çıkarmayı Geri Al" : "Öne Çıkar")
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-controller="Write" asp-route-id="@item.Id">Düzenle</a>
+                        <a asp-action="Publish" asp-route-id="@item.Id" class="btn @(item.IsPublished ? "btn-warning" : "btn-success") btn-sm">
+                            @(item.IsPublished ? "Yayından Kaldır" : "Yayına Al")
+                        </a>
+                        <a asp-action="Delete" asp-controller="Write" asp-route-id="@item.Id" class="btn @(item.IsDeleted ? "btn-danger" : "btn-warning") btn-sm">
+                            @(item.IsDeleted ? "Kalıcı Olarak Sil" : "Sil")
+                        </a>
+                        @if (item.IsDeleted)
+                        {
+                            <a asp-action="RemoveDelete" asp-controller="Write" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Geri Al</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

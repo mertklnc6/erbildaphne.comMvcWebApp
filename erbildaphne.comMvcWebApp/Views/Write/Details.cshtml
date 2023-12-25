@@ -33,7 +33,11 @@
                 <img src="@Model.PictureUrl" alt="@Model.Title">
             </div>
             <div class="tc-main-post-content color-000">
-                <div class="row">                    
+                <div class="row">
+                    <div class="col-lg-1">
+                        <div class="sharing">
+                        </div>
+                    </div>
                     <div class="col-lg-10">
                         <h4 class="sub-title sm-content-width">
                             @Model.Title
@@ -41,16 +45,22 @@
                         <p class="info-text sm-content-width mt-40">
                             @Model.Description
                         </p>
-
-                        <div class="info-text-img mt-30">
-                            <div class="row">
-                                <div class="col-lg-7">
-                                    <p class="info-text">
-                                        @Html.Raw(Model.Content)
-                                    </p>
-                                </div>
-                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="tc-main-post-content color-000">
+                <div class="row">
+                    <div class="col-lg-1">
+                        <div class="sharing">
                         </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <p class="info-text sm-content-width mt-40">
+
+                            @Html.Raw(Model.Content)
+
+                        </p>
                     </div>
                 </div>
             </div>
@@ -63,7 +73,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="content border-1 border-top border-bottom brd-gray pt-50 pb-50">
-                        <a href="#" class="d-block img-cover">
+                        <a asp-action="Contact" asp-controller="Home" class="d-block img-cover">
                             <img src="/template/assets/img/banner18.png" alt="">
                         </a>
                     </div>
@@ -78,19 +88,19 @@
         <div class="container">
             <div class="tc-author-card border-1 border-top brd-gray">
                 <div class="content mt-50 p-50 d-block d-lg-flex bg-gray1">
-                   
+
                     <div class="img img-cover icon-85 rounded-circle overflow-hidden flex-shrink-0 me-30">
-                         <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
-                        <img src="@author.PictureUrl" alt="">
+                        <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
+                            <img src="@author.PictureUrl" alt="">
                         </a>
                     </div>
-                    
+
                     <div class="info">
-                         <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
-                        <h5 class="title fsz-24px fw-bold">@author.Name</h5>                        
-                        <div class="text fsz-15px color-666 mt-20">
+                        <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
+                            <h5 class="title fsz-24px fw-bold">@author.Name</h5>
+                            <div class="text fsz-15px color-666 mt-20">
                                 @Html.Raw(author.Description)
-                        </div>
+                            </div>
                         </a>
                         <div class="social-links mt-20 fsz-19px">
                             <a href="https://@author.Instagram" target="_blank" class="me-15"><i class="la la-instagram"></i></a>
@@ -99,7 +109,7 @@
                             <a href="https://@author.Website" target="_blank"><i class="la la-link"></i></a>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

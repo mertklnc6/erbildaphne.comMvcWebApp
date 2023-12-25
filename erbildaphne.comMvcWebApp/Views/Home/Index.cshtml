@@ -26,43 +26,47 @@
                                 {
                                     if (!write.IsDeleted && write.IsPublished)
                                     {
-                                    <div class="swiper-slide">
-                                        <div class="tc-post-overlay-default">
-                                            <div class="img th-650 img-cover">
-                                                <img src="@write.PictureUrl" alt="@write.Title">
-                                            </div>
-                                            <div class="content ps-40 pe-40 pb-40">
-                                                <h2 class="title mb-20">
+
+                                        <div class="swiper-slide">
+                                            <div class="mt-0 tc-post-overlay-default">
+                                                <div>
                                                     <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
-                                                        @write.Title
+                                                        <img style="width: 870px; max-height: 500px;" src="@write.PictureUrl" alt="@write.Title">
                                                     </a>
-                                                </h2>
-                                                <div class="text mb-40">
-                                                    @write.Description
                                                 </div>
-                                                <div class="meta-bot lh-1">
-                                                    <ul class="d-flex">
-                                                        <li class="date me-5">
-                                                            <a href="#">
-                                                                    <i class="la la-calendar me-2"></i> @write.CreatedDate.ToString("ddMMyyyy")
-                                                            </a>
-                                                        </li>
-                                                            @foreach(var author in authorsList)
+                                                <div class="content ps-40 pe-40 pb-40">
+                                                    <h2 class="title mb-20">
+                                                        <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
+                                                            @write.Title
+                                                        </a>
+                                                    </h2>
+                                                    <div class="text mb-40">
+                                                        <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
+                                                            @write.Description
+                                                        </a>
+                                                    </div>
+                                                    <div class="meta-bot lh-1">
+                                                        <ul class="d-flex">
+                                                            <li class="date me-5">
+                                                                <i class="la la-calendar me-2"></i> @write.CreatedDate.ToShortDateString()
+                                                            </li>
+                                                            @foreach (var author in authorsList)
                                                             {
-                                                                if(author.Id == write.AuthorId)
+                                                                if (author.Id == write.AuthorId)
                                                                 {
                                                                     <li class="author me-5">
                                                                         <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id"><i class="la la-user me-2"></i> @author.Name</a>
                                                                     </li>
                                                                 }
                                                             }
-                                                           
-                                                    </ul>
+
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
+
+                                    }
                                 }
 
 
@@ -77,14 +81,17 @@
                     @await Component.InvokeAsync("GNews")
                 </div>
             </div>
+            <br />
             <div>
-                <a asp-action="Index" asp-controller="Write" >
-                    <span>Tüm yazılar...</span>
+                <a asp-action="Index" asp-controller="Write">
+                    Tüm yazılar<i class="la la-angle-right"></i>
                 </a>
             </div>
         </div>
     </div>
 </section>
+
 <!-- ====== end trends news ====== -->
+@await Component.InvokeAsync("MustRead")
 @await Component.InvokeAsync("Author")
 

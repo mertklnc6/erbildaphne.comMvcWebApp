@@ -1,56 +1,147 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+<!doctype html>
 <html lang="tr">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Yönetim Paneli</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/erbildaphne.comMvcWebApp.styles.css" asp-append-version="true" />
+    <link href="~/adminTemplate/assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="~/adminTemplate/assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="~/adminTemplate/assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="~/adminTemplate/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/adminTemplate/assets/css/master.css" rel="stylesheet">
+    <link href="~/adminTemplate/assets/vendor/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="~/template/assets/img/edlogo.png" title="Favicon" sizes="16x16" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <p class="navbar-brand">Yönetim Paneli</p>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+    <div class="wrapper">
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <img width="130rem" src="~/template/assets/img/ed-black.png" alt="logo" class="app-logo">
+            </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a asp-action="Index" asp-controller="Admin"><i class="fas fa-home"></i> Anasayfa</a>
+                </li>
+                <li>
+                    <a asp-action="List" asp-controller="Write"><i class="fas fa-file-alt"></i> Yazılar</a>
+                </li>
+                <li>
+                    <a asp-action="List" asp-controller="Author"><i class="fas fa-user"></i> Yazarlar</a>
+                </li>
+                <li>
+                    <a asp-action="List" asp-controller="Rumor"><i class="fas fa-comments"></i>Söylentiler </a>
+                </li>
+                <li>
+                    <a asp-action="List" asp-controller="GNews"><i class="fas fa-newspaper"></i> Taraflı Haberler</a>
+                </li>                
+
+
+            </ul>
+        </nav>
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            <nav class="navbar navbar-expand-lg navbar-white bg-white">
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-bars"></i><span></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
+               
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <a asp-action="Index" asp-controller="Admin">Anasayfa</a>
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+
+                                <a href="#" id="nav1" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-link"></i> <span>Admin İşlemleri</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end nav-link-menu" aria-labelledby="nav1">
+                                    <ul class="nav-list">
+                                        <li><a asp-action="Index" asp-controller="Role" class="dropdown-item"><i class="fas fa-user-shield"></i> Rol Yönetimi</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            @if (IsUserLoggedIn())
                             {
-                                <p>Hoşgeldiniz</p>                                
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Çıkış</a>
+                                <div class="nav-dropdown">
+                                    <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user"></i> <span>Hoşgeldiniz</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end nav-link-menu">
+                                        <ul class="nav-list">                                            
+                                            <li><a asp-action="Logout" asp-controller="Account" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Çıkış</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             }
                             else
                             {
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Giriş</a>
+                                <div class="nav-dropdown">
+                                    <a asp-action="Login" asp-controller="Account" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user"></i> <span>Giriş</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end nav-link-menu">
+                                        <ul class="nav-list">                                            
+                                            <li><a asp-action="Login" asp-controller="Account" class="dropdown-item"><i class="fas fa-sign-in-alt"></i> Giriş Yap</a></li>
+                                            <li><a asp-action="Register" asp-controller="Account" class="dropdown-item"><i class="fas fa-sign-in-alt"></i> Kayıt Ol</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
                             }
-                            
                         </li>
                     </ul>
                 </div>
+            </nav>
+            <!-- end of navbar navigation -->
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 page-header">
+                            <div class="page-pretitle">Yönetim</div>
+                            <h2 class="page-title">Paneli</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto page-header">
+                            @RenderBody()
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </div>
+    <script src="~/adminTemplate/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/adminTemplate/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/adminTemplate/assets/vendor/chartsjs/Chart.min.js"></script>
+    <script src="~/adminTemplate/assets/js/dashboard-charts.js"></script>
+    <script src="~/adminTemplate/assets/js/script.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @functions {
+        private bool IsUserLoggedIn()
+        {
+            var context = HttpContextAccessor.HttpContext;
+            var token = context.Session.GetString("JWTToken");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                // Token yoksa, kullanıcı oturum açmamış demektir.
+                return false;
+            }
+
+            // Token varsa, daha fazla doğrulama yapılabilir.
+            // Örneğin, token'ın süresi dolmuş mu diye kontrol etmek.
+            // Bu örnekte, sadece token'ın varlığı kontrol ediliyor.
+            return true;
+        }
+    }
 </body>
+
 </html>

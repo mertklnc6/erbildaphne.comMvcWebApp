@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using static System.Net.WebRequestMethods;
 
@@ -50,22 +51,38 @@ namespace erbildaphne.comMvcWebApp.Controllers
         public async Task<IActionResult> List()
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var result = await http.GetAsync("source");
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            if (roleClaims != null)
             {
-                var jsonData = await result.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<GNewsSourceViewModel>>(jsonData);
-                //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
-                return View(data);
+                var result = await http.GetAsync("source");
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonData = await result.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<List<GNewsSourceViewModel>>(jsonData);
+                    //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
+                    return View(data);
+                }
+                else
+                {
+                    // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
+                    return View("Error");
+                }
             }
-            else
-            {
-                // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
-                return View("Error");
-            }
+
+
+            return RedirectToAction("Login", "Account");
+
+            
         }
 
         
@@ -76,18 +93,33 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             
         [HttpGet]
-        //[Authorize(Roles = "admin")]
+        
         public async Task<IActionResult> Create()
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            return View(new GNewsSourceViewModel()); // Burada GNewsSourceViewModel nesnesi geçiriliyor.
+            if (roleClaims != null)
+            {
+                return View(new GNewsSourceViewModel()); // Burada GNewsSourceViewModel nesnesi geçiriliyor.
+            }
+
+
+            return RedirectToAction("Login", "Account");
+            
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
+        
         public async Task<IActionResult> Create(GNewsSourceViewModel model, IFormFile image)
         {
             // Resim yükleme
@@ -122,26 +154,42 @@ namespace erbildaphne.comMvcWebApp.Controllers
             try
             {
                 var token = HttpContext.Session.GetString("JWTToken");
+
+                if (token == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+
                 var http = _httpClientFactory.CreateClient("Client");
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-                var jsonContent = JsonConvert.SerializeObject(model);
-
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                var result = await http.PostAsync("source", content);
-                var error = result.Content.ReadAsStringAsync();
-
-                if (result.IsSuccessStatusCode)
+                if (roleClaims != null)
                 {
-                    // Başarılı POST işleminden sonra yapılacak işlemler
-                    return RedirectToAction("List");
+                    var jsonContent = JsonConvert.SerializeObject(model);
+
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                    var result = await http.PostAsync("source", content);
+                    var error = result.Content.ReadAsStringAsync();
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        // Başarılı POST işleminden sonra yapılacak işlemler
+                        return RedirectToAction("List");
+                    }
+                    else
+                    {
+                        // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
+                        return RedirectToAction("List");
+                    }
                 }
-                else
-                {
-                    // API'den başarısız bir yanıt geldiğinde hata sayfasını göster
-                    return RedirectToAction("List");
-                }
+
+
+                return RedirectToAction("Login", "Account");
+
+                
             }
             catch (Exception ex)
             {
@@ -177,31 +225,47 @@ namespace erbildaphne.comMvcWebApp.Controllers
         
 
         [HttpGet]
-        //[Authorize(Roles = "admin")]
+        
         public async Task<IActionResult> Edit(int id)
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var sourceResult = await http.GetAsync("source/" + id);
-
-
-            if (sourceResult.StatusCode == System.Net.HttpStatusCode.OK)
+            if (roleClaims != null)
             {
-                var sourceJsonData = await sourceResult.Content.ReadAsStringAsync();
-                var sourceData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(sourceJsonData);
+                var sourceResult = await http.GetAsync("source/" + id);
 
-                return View(sourceData);
+
+                if (sourceResult.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var sourceJsonData = await sourceResult.Content.ReadAsStringAsync();
+                    var sourceData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(sourceJsonData);
+
+                    return View(sourceData);
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
-            else
-            {
-                return View("Error");
-            }
+
+
+            return RedirectToAction("Login", "Account");
+
+           
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
+        
         public async Task<IActionResult> Edit(int id, GNewsSourceViewModel model,IFormFile? image)
         {
 
@@ -230,20 +294,36 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
 
                 var token = HttpContext.Session.GetString("JWTToken");
+
+                if (token == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+
                 var http = _httpClientFactory.CreateClient("Client");
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-                var sourceResult = await http.GetAsync("source/" + id);
-                var existing = await sourceResult.Content.ReadAsStringAsync();
-                var existingData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(existing);
-                existingData.Name = model.Name;
-                existingData.Side = model.Side;
-                existingData.SiteUrl = model.SiteUrl;                
-                var jsonContent = JsonConvert.SerializeObject(existingData);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result = await http.PutAsync("source/" + id.ToString(), content);
-                var error = result.Content.ReadAsStringAsync();
-                return RedirectToAction("List");
+                if (roleClaims != null)
+                {
+                    var sourceResult = await http.GetAsync("source/" + id);
+                    var existing = await sourceResult.Content.ReadAsStringAsync();
+                    var existingData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(existing);
+                    existingData.Name = model.Name;
+                    existingData.Side = model.Side;
+                    existingData.SiteUrl = model.SiteUrl;
+                    var jsonContent = JsonConvert.SerializeObject(existingData);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result = await http.PutAsync("source/" + id.ToString(), content);
+                    var error = result.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
+
+
+                return RedirectToAction("Login", "Account");
+
+                
 
 
 
@@ -253,56 +333,87 @@ namespace erbildaphne.comMvcWebApp.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "admin")]
+        
         public async Task<IActionResult> Delete(int id)
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var sourceResult = await http.GetAsync("source/" + id);
-            var existing = await sourceResult.Content.ReadAsStringAsync();
-            var existingData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(existing);
-            if (existingData.IsDeleted)
+            if (roleClaims != null)
             {
-                var result = await http.DeleteAsync("source/" + id.ToString());
-                var error = result.Content.ReadAsStringAsync();
-                return RedirectToAction("List");
-            }
-            else
-            {
+                var sourceResult = await http.GetAsync("source/" + id);
+                var existing = await sourceResult.Content.ReadAsStringAsync();
+                var existingData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(existing);
+                if (existingData.IsDeleted)
+                {
+                    var result = await http.DeleteAsync("source/" + id.ToString());
+                    var error = result.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
+                else
+                {
 
-                existingData.IsDeleted = true;
-                var jsonContent = JsonConvert.SerializeObject(existingData);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result2 = await http.PutAsync("source/" + id.ToString(), content);
-                var error = result2.Content.ReadAsStringAsync();
-                return RedirectToAction("List");
+                    existingData.IsDeleted = true;
+                    var jsonContent = JsonConvert.SerializeObject(existingData);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result2 = await http.PutAsync("source/" + id.ToString(), content);
+                    var error = result2.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
             }
+
+
+            return RedirectToAction("Login", "Account");
+
+            
 
         }
 
-        [HttpGet]
-        //[Authorize(Roles = "admin")]
+        [HttpGet]        
         public async Task<IActionResult> RemoveDelete(int id)
         {
             var token = HttpContext.Session.GetString("JWTToken");
+
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
-            var sourceResult = await http.GetAsync("source/" + id);
-            var existing = await sourceResult.Content.ReadAsStringAsync();
-            var existingData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(existing);
-            if (existingData.IsDeleted)
+            if (roleClaims != null)
             {
-                existingData.IsDeleted = false;
-                var jsonContent = JsonConvert.SerializeObject(existingData);
-                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                var result2 = await http.PutAsync("source/" + id.ToString(), content);
-                var error = result2.Content.ReadAsStringAsync();
+                var sourceResult = await http.GetAsync("source/" + id);
+                var existing = await sourceResult.Content.ReadAsStringAsync();
+                var existingData = JsonConvert.DeserializeObject<GNewsSourceViewModel>(existing);
+                if (existingData.IsDeleted)
+                {
+                    existingData.IsDeleted = false;
+                    var jsonContent = JsonConvert.SerializeObject(existingData);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    var result2 = await http.PutAsync("source/" + id.ToString(), content);
+                    var error = result2.Content.ReadAsStringAsync();
+                    return RedirectToAction("List");
+                }
                 return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+
+
+            return RedirectToAction("Login", "Account");
+
+            
         }
 
 

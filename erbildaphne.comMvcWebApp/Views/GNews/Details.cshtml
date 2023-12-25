@@ -6,6 +6,11 @@
 }
 @model GNewsViewModel
 
+
+
+
+
+
 <div class="section-content">
 
 
@@ -13,7 +18,7 @@
         <div class="tc-main-post-title pt-40 pb-40">
             <div class="row">
 
-                <div class="col-lg-8">
+                <div class="col-lg-10">
                     <h2 class="title">@Model.Title</h2>
                 </div>
             </div>
@@ -24,6 +29,10 @@
         </div>
         <div class="tc-main-post-content color-000">
             <div class="row">
+                <div class="col-lg-1">
+                    <div class="sharing">
+                    </div>
+                </div>
                 <div class="col-lg-10">
                     <h4 class="sub-title sm-content-width">
                         @Model.Title
@@ -32,35 +41,41 @@
                         @Model.Description
                     </p>
 
-                    <div class="info-text-img mt-30">
-                        <div class="row">
-                            <div class="col-lg-7">
-                                <p class="info-text">
-                                    @Html.Raw(Model.Content)
-                                </p>
-                            </div>
-                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="tc-main-post-content color-000">
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="sharing">
                     </div>
+                </div>
+                <div class="col-lg-10">
+                    <p class="info-text sm-content-width mt-40">
+
+                        @Html.Raw(Model.Content)
+
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-lg-6 mx-auto">
             <div class="statistics-container">
                 <h2 class="statistics-title">İstatistikler</h2>
                 <ul class="statistics-list">
                     <li class="statistics-item">
-                        <span class="statistics-label">Toplam Kaynaklar</span>
+                        <span class="statistics-label">Toplam Kaynak</span>
                         <span class="statistics-value">@Model.TotalSource</span>
                     </li>
                     <li class="statistics-item">
-                        <span class="statistics-label">Sol Kaynaklar</span>
+                        <span class="statistics-label">Liberal Kaynaklar</span>
                         <span class="statistics-value">@Model.LeaningLeft</span>
                     </li>
                     <li class="statistics-item">
-                        <span class="statistics-label">Sağ Kaynaklar</span>
+                        <span class="statistics-label">Ulusal Kaynaklar</span>
                         <span class="statistics-value">@Model.LeaningRight</span>
                     </li>
                     <li class="statistics-item">
@@ -69,23 +84,23 @@
                     </li>
                     <li class="statistics-item">
                         <span class="statistics-label">Son Güncelleme</span>
-                        <span class="statistics-value">@Model.CreatedDate.ToString("dd/MM/yyyy")</span>
+                        <span class="statistics-value">@Model.CreatedDate.ToShortDateString()</span>
                     </li>
                     <li class="statistics-item">
                         <span class="statistics-label">Baskın Taraf</span>
 
                         @if (Model.LeaningLeft > Model.LeaningCenter && Model.LeaningLeft > Model.LeaningRight)
                         {
-                            <span class="statistics-value">Sol @Model.LeftPercentage</span>
+                            <span class="statistics-value">Liberal @Model.LeftPercentage</span>
 
                         }
                         @if (Model.LeaningRight > Model.LeaningCenter && Model.LeaningRight > Model.LeaningLeft)
                         {
-                            <span class="statistics-value">Sol @Model.RightPercentage</span>
+                            <span class="statistics-value">Ulusal @Model.RightPercentage</span>
                         }
                         @if (Model.LeaningCenter > Model.LeaningLeft && Model.LeaningCenter > Model.LeaningRight)
                         {
-                            <span class="statistics-value">Sol @Model.CenterPercentage</span>
+                            <span class="statistics-value">Merkez @Model.CenterPercentage</span>
                         }
 
                     </li>

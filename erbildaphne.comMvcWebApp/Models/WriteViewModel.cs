@@ -13,6 +13,10 @@
         public int AuthorId { get; set; }
         public bool IsPublished { get; set; } = false;
 
+        public bool IsBoosted { get; set; } = false;
+
+        public bool IsChosen { get; set; } = false;
+
 
 
     }

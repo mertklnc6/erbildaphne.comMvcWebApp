@@ -74,7 +74,7 @@
                                                     <div class="col-lg-7">
                                                         <div class="content mt-20 mt-lg-0">                                                            
                                                             <h4 class="title fw-bold">
-                                                                <a a asp-action="Details" asp-controller="Writes" asp-route-id="@item.Id" class="hover-underline">
+                                                                <a a asp-action="Details" asp-controller="Write" asp-route-id="@item.Id" class="hover-underline">
                                                                     @item.Title
                                                                 </a>
                                                             </h4>
@@ -85,10 +85,7 @@
                                                                 <ul class="d-flex">
                                                                     <li class="date me-5">
                                                                         @item.CreatedDate.ToShortDateString()
-                                                                    </li>
-                                                                    <li class="author me-5">
-                                                                        <a asp-action="Details" asp-controller="Author" asp-route-id="@item.Id"><i class="la la-user me-2"></i>  </a>
-                                                                    </li>
+                                                                    </li>                                                                    
                                                                 </ul>
                                                             </div>
                                                         </div>

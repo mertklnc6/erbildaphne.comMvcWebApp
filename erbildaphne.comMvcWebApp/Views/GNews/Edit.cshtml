@@ -5,59 +5,77 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Haberi Düzenle</h1>
+<h1>Haber Düzenle</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-body">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control" id="editor" placeholder="İçerik giriniz..."></textarea>
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>            
-            <div class="form-group">
-                <label asp-for="LeaningLeft" class="control-label">Sol Kaynak Sayısı</label>
-                <input asp-for="LeaningLeft" class="form-control" />
-                <span asp-validation-for="LeaningLeft" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaningCenter" class="control-label">Merkez Kaynak Sayısı</label>
-                <input asp-for="LeaningCenter" class="form-control" />
-                <span asp-validation-for="LeaningCenter" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaningRight" class="control-label">Sağ Kaynak Sayısı</label>
-                <input asp-for="LeaningRight" class="form-control" />
-                <span asp-validation-for="LeaningRight" class="text-danger"></span>
-            </div>
+                    <!-- Title -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Title" class="form-label">Başlık</label>
+                        <input asp-for="Title" class="form-control" placeholder="Başlık giriniz..." />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label for="image" class="control-label">Haber Fotoğrafı: </label>
-                <input name="image" class="form-control" type="file" placeholder="Fotoğraf seçiniz" />
-            </div>
+                    <!-- Description -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Description" class="form-label">Açıklama</label>
+                        <input asp-for="Description" class="form-control" placeholder="Açıklama giriniz..." />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Kaydet" class="btn btn-primary" />
+                    <!-- Content -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Content" class="form-label">İçerik</label>
+                        <textarea asp-for="Content" class="form-control" id="editor" placeholder="İçerik giriniz..."></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+
+                    <!-- LeaningLeft -->
+                    <div class="form-group mb-3">
+                        <label asp-for="LeaningLeft" class="form-label">Sol Kaynak Sayısı</label>
+                        <input asp-for="LeaningLeft" class="form-control" />
+                        <span asp-validation-for="LeaningLeft" class="text-danger"></span>
+                    </div>
+
+                    <!-- LeaningCenter -->
+                    <div class="form-group mb-3">
+                        <label asp-for="LeaningCenter" class="form-label">Merkez Kaynak Sayısı</label>
+                        <input asp-for="LeaningCenter" class="form-control" />
+                        <span asp-validation-for="LeaningCenter" class="text-danger"></span>
+                    </div>
+
+                    <!-- LeaningRight -->
+                    <div class="form-group mb-3">
+                        <label asp-for="LeaningRight" class="form-label">Sağ Kaynak Sayısı</label>
+                        <input asp-for="LeaningRight" class="form-control" />
+                        <span asp-validation-for="LeaningRight" class="text-danger"></span>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="form-group mb-3">
+                        <label for="image" class="form-label">Haber Fotoğrafı</label>
+                        <input name="image" class="form-control" type="file" placeholder="Fotoğraf seçiniz" />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <input type="submit" value="Kaydet" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="List">Listeye Dön</a>
+<div class="mt-3">
+    <a asp-action="List" class="btn btn-secondary">Listeye Dön</a>
 </div>
+
 
 @section Scripts {
     @{

@@ -8,7 +8,7 @@ $(function () {
     var swiperWorkblc = new Swiper('.portfolio-blocks .cars-block .swiper-container', {
         loop: true,
         slidesPerView: 5,
-        autoplay: true,
+        autoplay: false,
         spaceBetween: 50,
         breakpoints: {
             1920: {
@@ -27,7 +27,7 @@ $(function () {
         loop: true,
         slidesPerView: 3,
         centeredSlides: true,
-        autoplay: true,
+        autoplay: false,
         spaceBetween: 20,
         speed: 1000,
         breakpoints: {
