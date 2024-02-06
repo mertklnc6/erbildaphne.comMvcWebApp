@@ -1,10 +1,10 @@
-﻿
-using erbildaphne.comMvcWebApp.Models;
+﻿using erbildaphne.comMvcWebApp.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
@@ -50,17 +50,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var token = HttpContext.Session.GetString("JWTToken");
-
-            if (token == null)
+            var jsonToken = HttpContext.Session.GetString("JWTToken");
+            if (jsonToken == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-
             var http = _httpClientFactory.CreateClient("Client");
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+            var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+            var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
             if (roleClaims != null)
             {
@@ -85,17 +87,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var token = HttpContext.Session.GetString("JWTToken");
-
-            if (token == null)
+            var jsonToken = HttpContext.Session.GetString("JWTToken");
+            if (jsonToken == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-
             var http = _httpClientFactory.CreateClient("Client");
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+            var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+            var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
             if (roleClaims != null)
             {
@@ -141,17 +145,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
             // API'ye model verisini gönderme
             try
             {
-                var token = HttpContext.Session.GetString("JWTToken");
-
-                if (token == null)
+                var jsonToken = HttpContext.Session.GetString("JWTToken");
+                if (jsonToken == null)
                 {
                     return RedirectToAction("Login", "Account");
                 }
 
-
                 var http = _httpClientFactory.CreateClient("Client");
-                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-                var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+                var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+                var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
                 if (roleClaims != null)
                 {
@@ -197,10 +203,10 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                 var jsonData = await result.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<AuthorViewModel>(jsonData);
-                var writesResult = await http.GetAsync("write");
-                var writesData = await writesResult.Content.ReadAsStringAsync();
-                var writes = JsonConvert.DeserializeObject<List<WriteViewModel>>(writesData);
-                ViewBag.Writes = writes;
+                var articlesResult = await http.GetAsync("article");
+                var articlesData = await articlesResult.Content.ReadAsStringAsync();
+                var articles = JsonConvert.DeserializeObject<List<ArticleViewModel>>(articlesData);
+                ViewBag.Articles = articles;
                 //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
                 return View(data);
             }
@@ -217,17 +223,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var token = HttpContext.Session.GetString("JWTToken");
-
-            if (token == null)
+            var jsonToken = HttpContext.Session.GetString("JWTToken");
+            if (jsonToken == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-
             var http = _httpClientFactory.CreateClient("Client");
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+            var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+            var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
             if (roleClaims != null)
             {
@@ -282,17 +290,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
                 }
 
 
-                var token = HttpContext.Session.GetString("JWTToken");
-
-                if (token == null)
+                var jsonToken = HttpContext.Session.GetString("JWTToken");
+                if (jsonToken == null)
                 {
                     return RedirectToAction("Login", "Account");
                 }
 
-
                 var http = _httpClientFactory.CreateClient("Client");
-                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-                var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+                var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+                var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
                 if (roleClaims != null)
                 {
@@ -325,17 +335,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var token = HttpContext.Session.GetString("JWTToken");
-
-            if (token == null)
+            var jsonToken = HttpContext.Session.GetString("JWTToken");
+            if (jsonToken == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-
             var http = _httpClientFactory.CreateClient("Client");
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+            var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+            var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
             if (roleClaims != null)
             {
@@ -371,17 +383,19 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
         public async Task<IActionResult> RemoveDelete(int id)
         {
-            var token = HttpContext.Session.GetString("JWTToken");
-
-            if (token == null)
+            var jsonToken = HttpContext.Session.GetString("JWTToken");
+            if (jsonToken == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-
             var http = _httpClientFactory.CreateClient("Client");
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var roleClaims = User.Claims.Where(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jsonToken);
+            var token = JsonConvert.DeserializeObject<TokenViewModel>(jsonToken);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token.Token);
+
+            var roleClaims = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Editor");
 
             if (roleClaims != null)
             {

@@ -1,6 +1,76 @@
 ﻿@model List<GNewsViewModel>
 
-<div class="tc-post-list-style1">
+
+<div class="col-lg-3">
+    <div class="tc-post-list-style1">
+        <div class="tc-post-title-style1">
+            <a asp-action="Index" asp-controller="GNews"> Dünya Basınından </a>
+        </div>
+        <div class="tc-post-overlay-default">
+            <div class="img th-200 img-cover">
+                <a asp-action="Index" asp-controller="GNews">
+                    <img src="/template/assets/img/tarafli.png" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="items">
+            @foreach (var item in Model.Where(i => i.IsPublished && !i.IsDeleted).OrderByDescending(i => i.CreatedDate).Take(1))
+            {
+
+
+                <a asp-action="Details" asp-controller="GNews" asp-route-id="@item.Id" class="item hover-main">
+                    <div>
+                        <div class="img th-85 img-cover">
+                            <img src="@item.PictureUrl" alt="@item.Title">
+                        </div>
+                        <br />
+                        <div class="content">
+                            <h4 class="title">@item.Title</h4>
+                        </div>
+                        <div class="content">
+                            <h6 class="title">@item.Title</h6>
+                        </div>
+                    </div>
+                </a>
+            }
+            <a asp-action="Index" asp-controller="GNews" class="fsz-13px color-999  pt-30 pb-30">
+               Tüm Taraflı Haberler <i class="la la-angle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* <div class="tc-post-list-style1">
     <div class="tc-post-title-style1">
         <a asp-action="Index" asp-controller="GNews"> Dünya Basınından </a>
     </div>
@@ -8,10 +78,10 @@
         <div>
             <a asp-action="Index" asp-controller="GNews">
             <img src="/template/assets/img/tarafli.png" alt=""></a>
-        </div>        
+        </div>
     </div>
     <div class="items">
-        @foreach (var gNews in Model.OrderByDescending(m => m.CreatedDate).Take(3))
+        @foreach (var gNews in Model.OrderByDescending(m => m.CreatedDate).Take(2))
         {
             @if (gNews.IsPublished && !gNews.IsDeleted)
             {
@@ -23,7 +93,7 @@
                             <img src="@gNews.PictureUrl" alt="@gNews.Title">
                         </div>
                         <br />
-                        <div class="content">                           
+                        <div class="content">
                             <h6 class="title">@gNews.Title</h6>
                         </div>
                     </div>
@@ -35,4 +105,4 @@
             Tüm Haberler <i class="la la-angle-right"></i>
         </a>
     </div>
-</div>
+</div> *@

@@ -1,4 +1,4 @@
-﻿@model erbildaphne.comMvcWebApp.Models.RegisterViewModel
+﻿@model             RegisterViewModel
 
 @{
     ViewData["Title"] = "Register";
@@ -23,9 +23,14 @@
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                             <div class="mb-3 text-start">
-                                <label asp-for="LastName" for="email" class="form-label">Email: </label>
-                                <input asp-for="LastName" type="email" class="form-control" placeholder="email..." required>
+                                <label asp-for="LastName" class="form-label">Soyadınız: </label>
+                                <input asp-for="LastName" type="text" class="form-control" placeholder="soyadınız..." required>
                                 <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label asp-for="Email" class="form-label">Email: </label>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="email..." required>
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="mb-3 text-start">
                                 <label asp-for="Password" class="control-label">Şifre: </label>

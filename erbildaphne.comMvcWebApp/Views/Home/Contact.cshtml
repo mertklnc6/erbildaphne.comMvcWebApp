@@ -15,8 +15,8 @@
                 <div class="col-lg-5">
                     <h2> Geri bildirimlerinizi bekliyoruz. </h2>
                     <div class="social-icons mt-60">
-                        <a href="x.com/erbildaphne"> <i class="la la-twitter"></i> </a>                      
-                        
+                        <a href="x.com/erbildaphne"> <i class="la la-twitter"></i> </a>
+
                         <a href="youtube.com/@@erbildaphne"> <i class="la la-youtube"></i> </a>
                         <a href="#"> <i class="la la-spotify"></i> </a>
                     </div>
@@ -25,13 +25,13 @@
                     <h5 class="sub-title fsz-24px mb-20 fw-bold"> İletişim </h5>
                     <ul>
                         <li class="mb-15"><a href="#">United States</a></li>
-                        
-                        
-                        
+
+
+
                         <li class="mb-15"><a href="#">edkusbakisi@@gmail.com</a></li>
                     </ul>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -42,16 +42,16 @@
 <!-- ====== start contact form ====== -->
 <section class="tc-contact-form pt-80 pb-80">
     <div class="container">
-        <div class="row gx-5">
-            <div class="col-lg-8 border-1 border-end brd-gray">
+        <div class="row">
+            <div class="col-lg-9 border-1 border-end brd-gray">
                 <div class="contact-form-card">
                     <h4 class="fsz-24px text-capitalize mb-10">Bize Ulaşın</h4>
                     <p class="fsz-13px mb-30">Zorunlu alanlar <span class="text-danger">*</span> </p>
-                    <form class="form">
+                    <form class="form" method="post" asp-action="Contact">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group mb-15">
-                                    <input type="text" name="subject" class="form-control" placeholder="Konu (Opsiyonel) ">
+                                    <input type="text" name="subject" class="form-control" placeholder="Konu ">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -70,14 +70,18 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <button type="submit" class="btn bg-main text-white rounded-0 mt-30">
                             <span class="fsz-11px">Gönder </span>
                         </button>
                     </form>
                 </div>
             </div>
-           
+
+            @{
+                Html.RenderPartial("_StayConnectedPartial");
+            }
+
         </div>
     </div>
 </section>

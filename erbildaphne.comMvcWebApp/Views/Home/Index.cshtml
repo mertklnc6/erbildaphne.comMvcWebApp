@@ -7,8 +7,74 @@
 @{
     List<AuthorViewModel> authorsList = ViewBag.Authors as List<AuthorViewModel>;
 }
-@model List<WriteViewModel>
+
+@model List<MainNewsViewModel>
+
 <!-- ====== start trends news ====== -->
+<section class="tc-trends-news-style1 pt-50 pb-50 bg-gray1">
+    <div class="container">
+        <div class="section-content">
+            <div class="row">
+                @await Component.InvokeAsync("Rumor")
+
+                <div class="col-lg-6">
+                    <div class="tc-trends-news-slider1 tc-slider-style2">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                @foreach (var item in Model.Where(i => i.IsPublished && !i.IsDeleted).OrderByDescending(i => i.CreatedDate))
+                                {
+
+
+                                    <div class="swiper-slide">
+                                        <div class="tc-post-overlay-default">
+                                            <div class="img th-650 img-cover">
+                                                <a asp-action="Details" asp-controller="MainNews" asp-route-id="@item.Id">
+                                                <img src="@item.PictureUrl" alt="">
+                                                </a>
+                                                <div class="tags">
+                                                    <a asp-action="Index" asp-controller="MainNews">Güncel</a>
+                                                    <a asp-action="Index" asp-controller="MainNews">Haberler</a>
+                                                </div>
+                                            </div>
+                                            <div class="content ps-40 pe-40 pb-40">
+                                                <h2 class="title mb-20">
+                                                    <a asp-action="Details" asp-controller="MainNews" asp-route-id="@item.Id">
+                                                        @item.Title
+                                                    </a>
+                                                </h2>
+                                                <div class="text mb-40">
+                                                    <a asp-action="Details" asp-controller="MainNews" asp-route-id="@item.Id">
+                                                        @item.Description
+                                                    </a>
+                                                </div>
+                                                <div class="meta-bot lh-1">
+                                                    <ul class="d-flex">
+                                                        <li class="date me-5">
+                                                            <a a asp-action="Details" asp-controller="MainNews" asp-route-id="@item.Id">
+                                                                <i class="la la-calendar me-2"></i> @item.CreatedDate.ToShortDateString()
+                                                            </a>
+                                                        </li>                                                
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!-- arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                @await Component.InvokeAsync("GNews")
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== end trends news ====== -->
+@* <!-- ====== start trends news ====== -->
 <section class="tc-trends-news-style1 pt-50 pb-50 bg-gray1">
     <div class="container">
         <div class="hot-trends-tabs-style1 mb-4">
@@ -22,37 +88,37 @@
                     <div class="tc-trends-news-slider1 tc-slider-style2">
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
-                                @foreach (var write in Model.OrderByDescending(m => m.CreatedDate).Take(5))
+                                @foreach (var article in Model.OrderByDescending(m => m.CreatedDate).Take(5))
                                 {
-                                    if (!write.IsDeleted && write.IsPublished)
+                                    if (!article.IsDeleted && article.IsPublished)
                                     {
 
                                         <div class="swiper-slide">
-                                            <div class="mt-0 tc-post-overlay-default">
-                                                <div>
-                                                    <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
-                                                        <img style="width: 870px; max-height: 500px;" src="@write.PictureUrl" alt="@write.Title">
+                                            <div class="tc-post-overlay-default">
+                                                <div class ="img th-600 img-cover">
+                                                    <a asp-action="Details" asp-controller="Article" asp-route-id="@article.Id">
+                                                        <img src="@article.PictureUrl" alt="@article.Title">
                                                     </a>
                                                 </div>
                                                 <div class="content ps-40 pe-40 pb-40">
                                                     <h2 class="title mb-20">
-                                                        <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
-                                                            @write.Title
+                                                        <a asp-action="Details" asp-controller="Article" asp-route-id="@article.Id">
+                                                            @article.Title
                                                         </a>
                                                     </h2>
                                                     <div class="text mb-40">
-                                                        <a asp-action="Details" asp-controller="Write" asp-route-id="@write.Id">
-                                                            @write.Description
+                                                        <a asp-action="Details" asp-controller="Article" asp-route-id="@article.Id">
+                                                            @article.Description
                                                         </a>
                                                     </div>
                                                     <div class="meta-bot lh-1">
                                                         <ul class="d-flex">
                                                             <li class="date me-5">
-                                                                <i class="la la-calendar me-2"></i> @write.CreatedDate.ToShortDateString()
+                                                                <i class="la la-calendar me-2"></i> @article.CreatedDate.ToShortDateString()
                                                             </li>
                                                             @foreach (var author in authorsList)
                                                             {
-                                                                if (author.Id == write.AuthorId)
+                                                                if (author.Id == article.AuthorId)
                                                                 {
                                                                     <li class="author me-5">
                                                                         <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id"><i class="la la-user me-2"></i> @author.Name</a>
@@ -83,15 +149,17 @@
             </div>
             <br />
             <div>
-                <a asp-action="Index" asp-controller="Write">
+                <a asp-action="Index" asp-controller="Article">
                     Tüm yazılar<i class="la la-angle-right"></i>
                 </a>
             </div>
         </div>
+
     </div>
 </section>
 
-<!-- ====== end trends news ====== -->
-@await Component.InvokeAsync("MustRead")
+<!-- ====== end trends news ====== --> *@
+@await Component.InvokeAsync("Article")
+@await Component.InvokeAsync("SecondArticle")
 @await Component.InvokeAsync("Author")
 

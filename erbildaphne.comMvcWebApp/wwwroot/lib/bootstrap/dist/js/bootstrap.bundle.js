@@ -1947,12 +1947,12 @@
 
   var beforeMain = 'beforeMain';
   var main = 'main';
-  var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
+  var afterMain = 'afterMain'; // modifier with the purpose to article to the DOM (or article into a framework state)
 
-  var beforeWrite = 'beforeWrite';
-  var write = 'write';
-  var afterWrite = 'afterWrite';
-  var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
+  var beforeArticle = 'beforeArticle';
+  var article = 'article';
+  var afterArticle = 'afterArticle';
+  var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeArticle, article, afterArticle];
 
   function getNodeName(element) {
     return element ? (element.nodeName || '').toLowerCase() : null;
@@ -2004,7 +2004,7 @@
         return;
       } // Flow doesn't support to extend this property, but it's the most
       // effective way to apply styles to an HTMLElement
-      // $FlowFixMe[cannot-write]
+      // $FlowFixMe[cannot-article]
 
 
       Object.assign(element.style, style);
@@ -2068,7 +2068,7 @@
   var applyStyles$1 = {
     name: 'applyStyles',
     enabled: true,
-    phase: 'write',
+    phase: 'article',
     fn: applyStyles,
     effect: effect$2,
     requires: ['computeStyles']
@@ -2490,7 +2490,7 @@
   var computeStyles$1 = {
     name: 'computeStyles',
     enabled: true,
-    phase: 'beforeWrite',
+    phase: 'beforeArticle',
     fn: computeStyles,
     data: {}
   };
@@ -2537,7 +2537,7 @@
   var eventListeners = {
     name: 'eventListeners',
     enabled: true,
-    phase: 'write',
+    phase: 'article',
     fn: function fn() {},
     effect: effect,
     data: {}
@@ -3683,9 +3683,9 @@
     beforeMain: beforeMain,
     main: main,
     afterMain: afterMain,
-    beforeWrite: beforeWrite,
-    write: write,
-    afterWrite: afterWrite,
+    beforeArticle: beforeArticle,
+    article: article,
+    afterArticle: afterArticle,
     modifierPhases: modifierPhases,
     applyStyles: applyStyles$1,
     arrow: arrow$1,
@@ -5739,7 +5739,7 @@
         }, {
           name: 'onChange',
           enabled: true,
-          phase: 'afterWrite',
+          phase: 'afterArticle',
           fn: data => this._handlePopperPlacementChange(data)
         }],
         onFirstUpdate: data => {

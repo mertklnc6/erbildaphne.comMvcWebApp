@@ -1,0 +1,9 @@
+﻿@if (ViewBag.SearchTerm == null)
+{
+    @await Component.InvokeAsync("Search",null)
+}
+@if (ViewBag.SearchTerm != null)
+{
+
+@await Component.InvokeAsync("Search", new { searchTerm = ViewBag.SearchTerm })
+}

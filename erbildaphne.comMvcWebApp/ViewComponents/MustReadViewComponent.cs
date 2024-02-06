@@ -18,12 +18,12 @@ namespace erbildaphne.comMvcWebApp.ViewComponents
         {
             var http = _httpClientFactory.CreateClient("Client");
 
-            var result = await http.GetAsync("write");
+            var result = await http.GetAsync("article");
             var authorResult = await http.GetAsync("author");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<WriteViewModel>>(jsonData);
+                var data = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonData);
                 var jsonAuthor = await authorResult.Content.ReadAsStringAsync();
                 var authors = JsonConvert.DeserializeObject<List<AuthorViewModel>>(jsonAuthor);
                 ViewBag.Authors = authors;

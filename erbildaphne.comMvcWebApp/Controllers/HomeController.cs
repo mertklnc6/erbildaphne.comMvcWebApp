@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Reflection;
 
 namespace erbildaphne.comMvcWebApp.Controllers
 {
@@ -21,15 +24,11 @@ namespace erbildaphne.comMvcWebApp.Controllers
         {
             var http = _httpClientFactory.CreateClient("Client");
             //http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var result = await http.GetAsync("write");
-            var authorResult = await http.GetAsync("author");
+            var result = await http.GetAsync("mainNews");            
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<WriteViewModel>>(jsonData);
-                var jsonAuthor = await authorResult.Content.ReadAsStringAsync();
-                var authors = JsonConvert.DeserializeObject<List<AuthorViewModel>>(jsonAuthor);
-                ViewBag.Authors = authors;
+                var data = JsonConvert.DeserializeObject<List<MainNewsViewModel>>(jsonData);               
                 //Json Serialize işlemleri için NewtonSoft paketini yüklüyoruz.
                 return View(data);
             }
@@ -45,11 +44,48 @@ namespace erbildaphne.comMvcWebApp.Controllers
             return View();
         }
         public IActionResult Contact()
+        {            
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Contact(ContactViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress(model.Email);
+                    mail.To.Add("edkusbakisi@gmail.com");
+                    mail.Subject = model.Subject;
+                    mail.Body = $"Name: {model.Name}\nEmail: {model.Email}\nMessage: {model.Message}";
+
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                    {
+                        smtp.Credentials = new NetworkCredential("edkusbakisi@gmail.com", ""); // Gmail kullanıcı adı ve şifresi
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+                    }
+
+                    ViewBag.Message = "Mesaj başarıyla gönderildi.";
+                }
+                catch (Exception ex)
+                {
+                    // Hata yönetimi
+                    ViewBag.Error = "Mesaj gönderilirken bir hata oluştu: " + ex.Message;
+                }
+            }
             return View();
         }
         public IActionResult About()
         {
+            return View();
+        }
+
+        public IActionResult Search(string searchTerm)
+        {
+            ViewBag.SearchTerm = searchTerm;
+            // Diğer işlemler
             return View();
         }
 

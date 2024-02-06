@@ -8750,10 +8750,10 @@ if ( typeof define === "function" && define.amd ) {
 
 var
 
-	// Map over jQuery in case of overwrite
+	// Map over jQuery in case of overarticle
 	_jQuery = window.jQuery,
 
-	// Map over the $ in case of overwrite
+	// Map over the $ in case of overarticle
 	_$ = window.$;
 
 jQuery.noConflict = function( deep ) {
