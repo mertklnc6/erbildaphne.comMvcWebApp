@@ -2753,7 +2753,7 @@
 		{
 			/* Unlike get, only the underscore (global) option is used for for
 			 * setting data since we don't know the type here. This is why an object
-			 * option is not documented for `mData` (which is read/write), but it is
+			 * option is not documented for `mData` (which is read/article), but it is
 			 * for `mRender` which is read only.
 			 */
 			return _fnSetObjectDataFn( mSource._ );
@@ -2941,8 +2941,8 @@
 	{
 		var row = settings.aoData[ rowIdx ];
 		var i, ien;
-		var cellWrite = function ( cell, col ) {
-			// This is very frustrating, but in IE if you just write directly
+		var cellArticle = function ( cell, col ) {
+			// This is very frustrating, but in IE if you just article directly
 			// to innerHTML, and elements that are overwritten are GC'ed,
 			// even if there is a reference to them elsewhere
 			while ( cell.childNodes.length ) {
@@ -2966,11 +2966,11 @@
 	
 			if ( cells ) {
 				if ( colIdx !== undefined ) {
-					cellWrite( cells[colIdx], colIdx );
+					cellArticle( cells[colIdx], colIdx );
 				}
 				else {
 					for ( i=0, ien=cells.length ; i<ien ; i++ ) {
-						cellWrite( cells[i], i );
+						cellArticle( cells[i], i );
 					}
 				}
 			}
@@ -3007,7 +3007,7 @@
 	 *   object from which to re-read the data from the cells
 	 * @param {int} [colIdx] Optional column index
 	 * @param {array|object} [d] Data source object. If `colIdx` is given then this
-	 *   parameter should also be given and will be used to write the data into.
+	 *   parameter should also be given and will be used to article the data into.
 	 *   Only the column in question will be written
 	 * @returns {object} Object with two parameters: `data` the data read, in
 	 *   document order, and `cells` and array of nodes (they can be useful to the
@@ -12549,7 +12549,7 @@
 		 * when you want to manipulate data for display (including filtering,
 		 * sorting etc) without altering the underlying data for the table, use this
 		 * property. `render` can be considered to be the the read only companion to
-		 * `data` which is read / write (then as such more complex). Like `data`
+		 * `data` which is read / article (then as such more complex). Like `data`
 		 * this option can be given in a number of different ways to effect its
 		 * behaviour:
 		 *

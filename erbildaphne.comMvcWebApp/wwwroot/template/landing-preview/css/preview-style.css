@@ -847,7 +847,7 @@ footer.style-4 {
         font-weight: bold; }
         footer.style-4 .foot .links li a:hover, footer.style-4 .foot .links li a.active {
           color: var(--color-main); }
-  footer.style-4 .copywrite {
+  footer.style-4 .copyarticle {
     padding: 35px 0; }
 
 @media screen and (max-width: 991px) {

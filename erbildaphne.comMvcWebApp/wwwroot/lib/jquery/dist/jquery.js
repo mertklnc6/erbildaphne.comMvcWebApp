@@ -7521,7 +7521,7 @@ function propFilter( props, specialEasing ) {
 			value = hooks.expand( value );
 			delete props[ name ];
 
-			// Not quite $.extend, this won't overwrite existing keys.
+			// Not quite $.extend, this won't overarticle existing keys.
 			// Reusing 'index' because we have the correct "name"
 			for ( index in value ) {
 				if ( !( index in props ) ) {
@@ -9360,7 +9360,7 @@ jQuery.extend( {
 
 	// Creates a full fledged settings object into target
 	// with both ajaxSettings and settings fields.
-	// If target is omitted, writes into ajaxSettings.
+	// If target is omitted, articles into ajaxSettings.
 	ajaxSetup: function( target, settings ) {
 		return settings ?
 
@@ -10849,10 +10849,10 @@ if ( typeof define === "function" && define.amd ) {
 
 var
 
-	// Map over jQuery in case of overwrite
+	// Map over jQuery in case of overarticle
 	_jQuery = window.jQuery,
 
-	// Map over the $ in case of overwrite
+	// Map over the $ in case of overarticle
 	_$ = window.$;
 
 jQuery.noConflict = function( deep ) {

@@ -3985,7 +3985,7 @@
         }, {
           name: 'onChange',
           enabled: true,
-          phase: 'afterWrite',
+          phase: 'afterArticle',
           fn: data => this._handlePopperPlacementChange(data)
         }],
         onFirstUpdate: data => {

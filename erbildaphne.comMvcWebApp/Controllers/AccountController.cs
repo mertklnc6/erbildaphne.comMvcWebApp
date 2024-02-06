@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using erbildaphne.comMvcWebApp.Models;
 using Newtonsoft.Json;
 using System.Text;
 using NuGet.Common;
+using erbildaphne.comMvcWebApp.Models;
 
 namespace erbildaphne.comMvcWebApp.Controllers
 {
@@ -29,8 +29,8 @@ namespace erbildaphne.comMvcWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            //if (!ModelState.IsValid)
+            //    return View(model);
 
             var http = _httpClientFactory.CreateClient("Client");
             var jsonContent = JsonConvert.SerializeObject(model);

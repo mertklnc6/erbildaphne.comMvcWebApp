@@ -7,7 +7,7 @@
 }
 @model AuthorViewModel
 @{
-    List<WriteViewModel> writesList = ViewBag.Writes as List<WriteViewModel>;
+    List<ArticleViewModel> articlesList = ViewBag.Articles as List<ArticleViewModel>;
 }
     {
 <!-- ====== start popular posts ====== -->
@@ -54,7 +54,7 @@
                             
 
                             <div class="items">
-                                @foreach (var item in writesList)
+                                @foreach (var item in articlesList)
                                 {
                                     if (!item.IsDeleted && item.IsPublished)
                                     {
@@ -66,7 +66,7 @@
                                                     <div class="col-lg-5">
                                                         <div class="img th-230 img-cover overflow-hidden">
                                                             <img src="@item.PictureUrl" alt="">
-                                                            <a asp-action="Details" asp-controller="Writes" asp-route-id="@item.Id" data-lity="">
+                                                            <a asp-action="Details" asp-controller="Articles" asp-route-id="@item.Id" data-lity="">
                                                                
                                                             </a>
                                                         </div>
@@ -74,7 +74,7 @@
                                                     <div class="col-lg-7">
                                                         <div class="content mt-20 mt-lg-0">                                                            
                                                             <h4 class="title fw-bold">
-                                                                <a a asp-action="Details" asp-controller="Write" asp-route-id="@item.Id" class="hover-underline">
+                                                                <a a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id" class="hover-underline">
                                                                     @item.Title
                                                                 </a>
                                                             </h4>

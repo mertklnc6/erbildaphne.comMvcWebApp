@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model IEnumerable<SecondArticleViewModel>
+
+<div class="container mt-3">
+    <p>
+        <a asp-action="Create" class="btn btn-success">Yeni Oluştur</a>
+    </p>   
+    
+
+
+   @*  <div class="card border-danger mx-auto mt-5" style="max-width: 40rem;">
+        <p class="card-text">1 Adet En Öne Çıkan ve 3 Adet Öne Çıkan Olmalı. </p>
+        </div>
+    </div> *@
+    <br />
+
+
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Fotoğraf</th>                
+                <th>Oluşturulma Tarihi</th>
+                <th>Başlık</th>
+                <th>Açıklama</th>                
+                <th>Yazar ID</th>
+                @* <th>En Öne Çıkan</th>
+                <th>Öne Çıkanlar</th> *@
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td><img width="50px" src="@item.PictureUrl" /></td>
+                    <td>@item.CreatedDate</td>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>                    
+                    <td>@item.AuthorId</td>
+                    @* <td>                       
+                       
+                        <a asp-action="Chose" asp-route-id="@item.Id" class="btn @(item.IsChosen ? "btn-warning" : "btn-success") btn-sm">
+                            @(item.IsChosen ?  "En Önden Geri Al" : "En Öne Çıkar")
+                        </a>
+                        
+                    </td>
+                    <td>
+                        <a asp-action="Boost" asp-route-id="@item.Id" class="btn @(item.IsBoosted ? "btn-warning" : "btn-success") btn-sm">
+                            @(item.IsBoosted ? "Öne Çıkarmayı Geri Al" : "Öne Çıkar")
+                        </a>
+                    </td> *@
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-controller="SecondArticle" asp-route-id="@item.Id">Düzenle</a>
+                        <a asp-action="Publish" asp-route-id="@item.Id" class="btn @(item.IsPublished ? "btn-warning" : "btn-success") btn-sm">
+                            @(item.IsPublished ? "Yayından Kaldır" : "Yayına Al")
+                        </a>
+                        <a asp-action="Delete" asp-controller="SecondArticle" asp-route-id="@item.Id" class="btn @(item.IsDeleted ? "btn-danger" : "btn-warning") btn-sm">
+                            @(item.IsDeleted ? "Kalıcı Olarak Sil" : "Sil")
+                        </a>
+                        @if (item.IsDeleted)
+                        {
+                            <a asp-action="RemoveDelete" asp-controller="SecondArticle" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Geri Al</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

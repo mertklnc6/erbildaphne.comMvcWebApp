@@ -14,53 +14,56 @@
                 <div class="col-lg-9 pe-lg-5">
                     <div class="tc-post-list-style3">
                         <div class="items">
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Where(i => i.IsPublished && !i.IsDeleted))
                             {
-                                @if (item.IsPublished && !item.IsDeleted)
-                                {
-                                    <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
-                                    <div class="item">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="img icon-200 rounded-circle img-cover overflow-hidden">
+
+
+                                <div class="item">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="img icon-200 rounded-circle img-cover overflow-hidden">
+                                                <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
                                                     <img src="@item.PictureUrl" alt="@item.Title">
-                                                </div>
+                                                </a>
                                             </div>
-                                            <div class="col-lg-8">
-                                                <div class="content mt-20 mt-lg-0">
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="content mt-20 mt-lg-0">
 
-                                                    <h4 class="title fw-bold">
-
+                                                <h4 class="title fw-bold">
+                                                    <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
                                                         @item.Title
+                                                    </a>
 
-                                                    </h4>
-                                                    <div class="text color-666 mt-20">
+
+                                                </h4>
+                                                <div class="text color-666 mt-20">
+                                                    <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
                                                         @item.Description
-                                                    </div>                                                    
-                                                    <div class="meta-bot fsz-13px color-666">
-                                                        <ul class="d-flex">
-                                                            <li class="date me-5">
-                                                                <i class="la la-calendar me-2"></i> @item.CreatedDate.ToShortDateString()
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    </a>
+                                                </div>
+                                                <div class="meta-bot fsz-13px color-666">
+                                                    <ul class="d-flex">
+                                                        <li class="date me-5">
+                                                            <i class="la la-calendar me-2"></i> @item.CreatedDate.ToShortDateString()
+                                                        </li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    </a>
-                                }
+                                </div>
+
+
                             }
 
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="widgets widgets-sticky mt-5 mt-lg-0">
 
-                        @await Component.InvokeAsync("GNews")
-                    </div>
-                </div>
+
+                @await Component.InvokeAsync("GNews")
+
             </div>
         </div>
     </div>

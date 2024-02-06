@@ -9,7 +9,7 @@
 
     <div class="row">
         <!-- Yazar İşlemleri Kartı -->
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title">Yazar İşlemleri</h5>
@@ -20,18 +20,28 @@
         </div>
 
         <!-- Yazı İşlemleri Kartı -->
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title">Yazı İşlemleri</h5>
                     <p class="card-text">Yazılarla ilgili işlemleri buradan yönetin.</p>
-                    <a asp-action="List" asp-controller="Write" class="btn btn-secondary">Yönet</a>
+                    <a asp-action="List" asp-controller="Article" class="btn btn-secondary">Yönet</a>
+                </div>
+            </div>
+        </div>
+        <!-- Yazı İşlemleri Kartı -->
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">İkincil Yazı İşlemleri</h5>
+                    <p class="card-text">İkincil Yazılarla ilgili işlemleri buradan yönetin.</p>
+                    <a asp-action="List" asp-controller="SecondArticle" class="btn btn-secondary">Yönet</a>
                 </div>
             </div>
         </div>
 
         <!-- Söylenti İşlemleri Kartı -->
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title">Söylenti İşlemleri</h5>
@@ -43,26 +53,40 @@
     </div>
 
     <div class="row">
+
         <!-- Haber İşlemleri Kartı -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title">Haber İşlemleri</h5>
                     <p class="card-text">Haberlerle ilgili işlemleri buradan yönetin.</p>
+                    <a asp-action="List" asp-controller="MainNews" class="btn btn-info">Yönet</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Haber İşlemleri Kartı -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Taraflı Haber İşlemleri</h5>
+                    <p class="card-text">Taraflı Haberlerle ilgili işlemleri buradan yönetin.</p>
                     <a asp-action="List" asp-controller="GNews" class="btn btn-info">Yönet</a>
                 </div>
             </div>
         </div>
 
         <!-- Haber Kaynağı İşlemleri Kartı -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Haber Kaynağı İşlemleri</h5>
-                    <p class="card-text">Haber kaynaklarıyla ilgili işlemleri buradan yönetin.</p>
+                    <h5 class="card-title">Taraflı Haber Kaynağı İşlemleri</h5>
+                    <p class="card-text">Taraflı Haber kaynaklarıyla ilgili işlemleri buradan yönetin.</p>
                     <a asp-action="List" asp-controller="Source" class="btn btn-warning">Yönet</a>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>

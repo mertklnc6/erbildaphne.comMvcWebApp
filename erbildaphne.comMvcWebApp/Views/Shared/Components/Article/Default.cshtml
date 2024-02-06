@@ -1,0 +1,160 @@
+﻿@model List<ArticleViewModel>
+
+@{
+    List<AuthorViewModel> authors = ViewBag.Authors as List<AuthorViewModel>;
+}
+
+<!-- ====== start Latest news ====== -->
+<section class="tc-latest-news-style1">
+    <div class="container">
+        <div class="section-content pt-50 pb-50 border-bottom border-1 brd-gray">
+            <p class="color-000 text-uppercase mb-30 ltspc-1">
+                <a asp-action="Index" asp-controller="Article"> Özel Yazılar </a> <i class="la la-angle-right ms-1"></i>
+            </p>
+            <div class="row">
+                <div class="col-lg-5 border-end brd-gray border-1">
+                    <div class="tc-post-grid-default">
+                        @foreach (var item in Model.Where(i => !i.IsChosen && i.IsPublished && !i.IsDeleted).OrderByDescending(i => i.CreatedDate).Take(1))
+                        {
+                            <div class="item">
+                                <div class="img img-cover th-330">
+                                    <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id">
+                                        <img src="@item.PictureUrl" alt="">
+                                    </a>
+                                </div>
+                                <div class="content pt-30">
+                                    <h2 class="title mb-20">
+                                        <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id">
+                                            @item.Title
+                                        </a>
+                                    </h2>
+                                    <div class="text color-666">
+                                        @item.Description
+                                    </div>
+                                    <div class="meta-bot lh-1 mt-40">
+                                        <ul class="d-flex">
+                                            <li class="date me-5">
+                                                <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id"><i class="la la-calendar me-2"></i> @item.CreatedDate.ToShortDateString()</a>
+                                            </li>
+                                            @foreach (var author in authors.Where(a => a.Id == item.AuthorId).Take(1))
+                                            {
+                                                <li class="author me-5">
+                                                    <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
+                                                        <i class="la la-user me-2">
+
+                                                        </i> @author.Name
+                                                    </a>
+                                                </li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-4 border-end brd-gray border-1">
+                    <div class="tc-post-list-style2">
+                        <div class="items">
+                            @foreach (var item in Model.Where(a => !a.IsDeleted && a.IsPublished && !a.IsChosen).OrderByDescending(i => i.CreatedDate).Skip(1).Take(6))
+                            {
+                                <div class="item p-2">
+                                    <div class="row gx-3 align-items-center">
+                                        <div class="col-4">
+                                            <div class="img th-70 img-cover">
+
+                                                <img src="@item.PictureUrl" alt="">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="content">
+                                                @foreach (var author in authors.Where(a => a.Id == item.AuthorId).Take(1))
+                                                {
+                                                    <div class="news-cat color-999 fsz-13px text-uppercase mb-1">
+                                                        <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
+                                                            @author.Name
+                                                        </a>
+
+                                                    </div>
+                                                }
+                                                <h5 class="title ltspc--1">
+                                                    <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id"
+                                                       class="hover-underline">
+                                                        @item.Title
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="tc-post-grid-default border-1 brd-gray pb-10">
+                        @foreach (var item in Model.Where(a => !a.IsDeleted && a.IsPublished && a.IsChosen).OrderByDescending(i => i.CreatedDate).Take(1))
+                        {
+                            <div class="item p-3">
+                                <div class="img img-cover th-200">
+                                    <img src="@item.PictureUrl" alt="">
+                                    <br />
+                                </div>
+                                <div class="content pt-20">
+                                    <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id" class="news-cat color-999 fsz-13px text-uppercase mb-10">Öne Çıkan</a>
+                                    <h5 class="title ltspc--1 mb-10">
+                                        <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id">
+                                            @item.Title
+                                        </a>
+                                    </h5>
+                                    <div class="text color-666">
+                                        @item.Description
+                                    </div>
+                                    <div class="meta-bot lh-1 mt-20">
+                                        <ul class="d-flex">
+                                            <li class="date me-5">
+                                                <a asp-action="Details" asp-controller="Article" asp-route-id="@item.Id"><i class="la la-calendar me-2"></i> @item.CreatedDate.ToShortDateString()</a>
+                                            </li>
+                                            @foreach (var author in authors.Where(a => a.Id == item.AuthorId).Take(1))
+                                            {
+                                                <li class="comment">
+                                                    <a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">
+                                                        <i class="la la-user me-2"></i>@author.Name
+                                                    </a>
+
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end Latest news ====== -->
+<!-- ====== start banner1 ====== -->
+<section class="banner1">
+    <div class="container">
+        <div class="content pt-50 pb-50 border-bottom border-1 brd-gray">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <a asp-action="Contact" asp-controller="Home" class="d-block img-cover">
+                        <img src="~/template/assets/img/banner1.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ====== end banner1 ====== -->

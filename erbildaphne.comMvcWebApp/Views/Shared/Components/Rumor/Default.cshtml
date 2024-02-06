@@ -1,6 +1,86 @@
 ﻿@model List<RumorViewModel>
 
-<!-- ====== start breaking news ====== -->
+<div class="col-lg-3">
+    <div class="tc-stock-card mb-30">
+        <a asp-action="Index" asp-controller="Rumor" class="stock-card-title">
+            Kuş Bakışı Söylentiler
+            <span class="la la-arrow-circle-o-right color-666"></span>
+        </a>
+        <div class="stock-card-body">
+
+            @foreach (var item in Model.Where(i => i.IsPublished == true && i.IsDeleted == false).OrderByDescending(i => i.CreatedDate).Skip(1).Take(4))
+            {
+
+                
+                <div class="stock-card-item">                   
+                    <div class="title">
+                        <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
+                        <h6>
+                            @item.Title
+                        </h6>
+                        </a>
+                    </div>
+                    <div class="inf">
+                        <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
+                        <p>@item.Description</p>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="tc-post-grid-default">
+        <div class="item">
+            @foreach (var item in Model.OrderByDescending(i => i.CreatedDate).Take(1))
+            {
+                if (item.IsDeleted == false && item.IsPublished == true)
+                {
+
+
+                    <div class="img img-cover th-200 bg-gray2">
+                        <img src="@item.PictureUrl" alt="@item.Title">
+                    </div>
+                    <div class="content py-4 px-3 bg-gray2">
+                        <p class="color-main fsz-13px text-uppercase mb-1">En Güncel Söylenti</p>
+                        <h4 class="title ltspc--1">
+                            <a asp-action="Details" asp-controller="Rumor" asp-route-id="@item.Id">
+                                @item.Title
+                            </a>
+                        </h4>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* <!-- ====== start breaking news ====== -->
 <section class="tc-breaking-news-style1 pt-50 pb-50">
     <div class="container">
         <a asp-action="Index" asp-controller="Rumor" class="color-999 text-uppercase mb-30 ltspc-1">Kuş bakışı söylentiler</a>
@@ -49,4 +129,4 @@
         </div>
     </div>
 </section>
-<!-- ====== end breaking news ====== -->
+<!-- ====== end breaking news ====== --> *@

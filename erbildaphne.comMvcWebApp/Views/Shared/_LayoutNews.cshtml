@@ -182,8 +182,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-action="Index" asp-controller="Write">
+                                <a class="nav-link" asp-action="Index" asp-controller="Article">
                                     Özel Yazılar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="MainNews">
+                                    Özel Haberler
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -193,7 +198,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="Index" asp-controller="Rumor">
-                                    Kuş Bakışı Söylentiler
+                                    Söylentiler
                                 </a>
                             </li>
 
@@ -236,17 +241,18 @@
                 <div class="row justify-content-center align-items-center gx-lg-5">
                     <div class="col-lg-4">
                         <div class="info">
-                            <h5> haber, yazı, söylenti <br> ya da yazar </h5>
+                            <h5> haber, yazı <br> ya da söylenti arayın</h5>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <form class="form">
+                        <form asp-action="Search" asp-controller="Home" class="form" method="get">
                             <span class="color-777 fst-italic text-capitalize mb-2 fsz-13px">ara...</span>
                             <div class="form-group">
                                 <span class="icon">
                                     <i class="la la-search"></i>
                                 </span>
-                                <input type="text" class="form-control" placeholder="erbil gunasti ... ">
+
+                                <input type="text" name="searchTerm" class="form-control" placeholder="erbil gunasti ... ">
                                 <button type="submit">Ara</button>
                             </div>
                         </form>
@@ -259,7 +265,7 @@
     <!-- ====== start navbar-container ====== -->
     <!--Contents-->
     <main>
-        @await Component.InvokeAsync("Rumor")
+       @*  @await Component.InvokeAsync("Rumor") *@
         @RenderBody()
         <!-- ====== start modals ====== -->
 
@@ -267,8 +273,8 @@
              aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
                 <div class="logo">
-                    <img src="/template/assets/img/ed-light.png" alt="" class="dark-none">
-                    <img src="/template/assets/img/ed-dark.png" alt="" class="light-none">
+                    <img src="/template/assets/img/ed-black.png" alt="" class="dark-none">
+                    <img src="/template/assets/img/ed-white.png" alt="" class="light-none">
                 </div>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                         aria-label="Geri"></button>
@@ -285,18 +291,27 @@
                     <h6 class="color-000 text-uppercase mb-30 ltspc-1">
                         İçeriklerimiz <i class="la la-angle-right ms-1"></i>
                     </h6>
-                    <a asp-action="Index" asp-controller="Write" class="cat-card">
+                    <a asp-action="Index" asp-controller="Article" class="cat-card">
                         <div class="img img-cover">
-                            <img src="/template/assets/img/bussines/1.png" alt="">
+                            <img src="/template/assets/img/ed-black.png" alt="">
                         </div>
                         <div class="info">
                             <h5>Özel Yazılar</h5>
                             <span class="num"></span>
                         </div>
                     </a>
+                    <a asp-action="Index" asp-controller="MainNews" class="cat-card">
+                        <div class="img img-cover">
+                            <img src="/template/assets/img/ed-black.png" alt="">
+                        </div>
+                        <div class="info">
+                            <h5>Özel Haberler Ve Etkinlikler</h5>
+                            <span class="num"></span>
+                        </div>
+                    </a>
                     <a asp-action="Index" asp-controller="Rumor" class="cat-card">
                         <div class="img img-cover">
-                            <img src="/template/assets/img/trend/3.png" alt="">
+                            <img src="/template/assets/img/ed-black.png" alt="">
                         </div>
                         <div class="info">
                             <h5>Kuş Bakışı Söylentiler</h5>
@@ -305,7 +320,7 @@
                     </a>
                     <a asp-action="Index" asp-controller="GNews" class="cat-card">
                         <div class="img img-cover">
-                            <img src="/template/assets/img/must_read/3.png" alt="">
+                            <img src="/template/assets/img/ed-black.png" alt="">
                         </div>
                         <div class="info">
                             <h5>Taraflı Haberler</h5>
@@ -339,7 +354,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
         <!-- ====== end modals ====== -->
     </main>
     <!--End-Contents-->
@@ -394,7 +409,10 @@
                             <div class="title">İçeriklerimiz</div>
                             <ul>
                                 <li>
-                                    <a asp-action="Index" asp-controller="Write" class="f-link">Özel Yazılar</a>
+                                    <a asp-action="Index" asp-controller="Article" class="f-link">Özel Yazılar</a>
+                                </li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="MainNews" class="f-link">Özel Haberler Ve Etkinlikler</a>
                                 </li>
                                 <li>
                                     <a asp-action="Index" asp-controller="Rumor" class="f-link">Kuş Bakışı Söylentiler</a>
