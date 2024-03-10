@@ -30,7 +30,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
             //var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIm5iZiI6MTY5NzI3NjY2OSwiZXhwIjoxNjk3Mjc2OTY5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0In0.3QCXuBm4zjCJnGIteSsMtY33jUNpnl_MdAJVBLPeCPQ";
             var http = _httpClientFactory.CreateClient("Client");
             //http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var result = await http.GetAsync("author");
+            var result = await http.GetAsync("author/get/");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
@@ -66,7 +66,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var result = await http.GetAsync("author");
+                var result = await http.GetAsync("author/get/");
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var jsonData = await result.Content.ReadAsStringAsync();
@@ -165,7 +165,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                    var result = await http.PostAsync("author", content);
+                    var result = await http.PostAsync("author/create/", content);
                     var error = result.Content.ReadAsStringAsync();
 
                     if (result.IsSuccessStatusCode)
@@ -195,7 +195,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var http = _httpClientFactory.CreateClient("Client");
-            var result = await http.GetAsync("author" + "/" + id.ToString());
+            var result = await http.GetAsync("author/getById/" + id.ToString());
 
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
@@ -203,7 +203,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                 var jsonData = await result.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<AuthorViewModel>(jsonData);
-                var articlesResult = await http.GetAsync("article");
+                var articlesResult = await http.GetAsync("article/get/");
                 var articlesData = await articlesResult.Content.ReadAsStringAsync();
                 var articles = JsonConvert.DeserializeObject<List<ArticleViewModel>>(articlesData);
                 ViewBag.Articles = articles;
@@ -239,7 +239,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var authorResult = await http.GetAsync("author/" + id);
+                var authorResult = await http.GetAsync("author/" + id.ToString());
 
 
                 if (authorResult.StatusCode == System.Net.HttpStatusCode.OK)
@@ -306,7 +306,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                 if (roleClaims != null)
                 {
-                    var authorResult = await http.GetAsync("author/" + id);
+                    var authorResult = await http.GetAsync("author/getById" + id.ToString());
                     var existing = await authorResult.Content.ReadAsStringAsync();
                     var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
                     existingData.Bio = model.Bio;
@@ -314,7 +314,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.Name = model.Name;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result = await http.PutAsync("author/" + id.ToString(), content);
+                    var result = await http.PutAsync("author/edit/" + id.ToString(), content);
                     var error = result.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -351,12 +351,12 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var authorResult = await http.GetAsync("author/" + id);
+                var authorResult = await http.GetAsync("author/getById/" + id.ToString());
                 var existing = await authorResult.Content.ReadAsStringAsync();
                 var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
                 if (existingData.IsDeleted)
                 {
-                    var result = await http.DeleteAsync("author/" + id.ToString());
+                    var result = await http.DeleteAsync("author/delete/" + id.ToString());
                     var error = result.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -366,7 +366,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.IsDeleted = true;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result2 = await http.PutAsync("author/" + id.ToString(), content);
+                    var result2 = await http.PutAsync("author/edit/" + id.ToString(), content);
                     var error = result2.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -399,7 +399,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var authorResult = await http.GetAsync("author/" + id);
+                var authorResult = await http.GetAsync("author/getById/" + id.ToString());
                 var existing = await authorResult.Content.ReadAsStringAsync();
                 var existingData = JsonConvert.DeserializeObject<AuthorViewModel>(existing);
                 if (existingData.IsDeleted)
@@ -407,7 +407,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.IsDeleted = false;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result2 = await http.PutAsync("author/" + id.ToString(), content);
+                    var result2 = await http.PutAsync("author/edit/" + id.ToString(), content);
                     var error = result2.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }

@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("Client", client =>
 {
-    client.BaseAddress = new Uri("https://edapi.com.tr/api/");
-    //client.BaseAddress = new Uri("https://localhost:8000/api/");
+    //client.BaseAddress = new Uri("https://edapi.com.tr/api/");
+    client.BaseAddress = new Uri("https://localhost:8000/api/");
 });
 builder.Services.AddSession(options =>
 {

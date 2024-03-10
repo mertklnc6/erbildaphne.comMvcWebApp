@@ -117,7 +117,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
             var http = _httpClientFactory.CreateClient("Client");
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
 
-            var result = await http.GetAsync("role/users/" + id);
+            var result = await http.GetAsync("role/users/" + id.ToString());
             var response = await result.Content.ReadAsStringAsync();
 
             if (result.IsSuccessStatusCode)
@@ -153,7 +153,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             var content = new StringContent(jsonContent, encoding: Encoding.UTF8, "application/json");
 
-            var result = await http.PutAsync("role/edit", content);
+            var result = await http.PutAsync("role/edit/", content);
             var response = result.Content.ReadAsStringAsync();
 
             if (result.IsSuccessStatusCode)

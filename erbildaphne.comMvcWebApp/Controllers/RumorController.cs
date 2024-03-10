@@ -30,7 +30,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
             //var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIm5iZiI6MTY5NzI3NjY2OSwiZXhwIjoxNjk3Mjc2OTY5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0In0.3QCXuBm4zjCJnGIteSsMtY33jUNpnl_MdAJVBLPeCPQ";
             var http = _httpClientFactory.CreateClient("Client");
             //http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var result = await http.GetAsync("rumor");
+            var result = await http.GetAsync("rumor/get/");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
@@ -65,7 +65,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var result = await http.GetAsync("rumor");
+                var result = await http.GetAsync("rumor/get/");
                 var error = result.Content.ReadAsStringAsync();
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -148,7 +148,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                    var result = await http.PostAsync("rumor", content);
+                    var result = await http.PostAsync("rumor/create/", content);
                     var error = result.Content.ReadAsStringAsync();
 
                     if (result.IsSuccessStatusCode)
@@ -178,7 +178,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var http = _httpClientFactory.CreateClient("Client");
-            var result = await http.GetAsync("rumor" + "/" + id.ToString());
+            var result = await http.GetAsync("rumor/getById/" + id.ToString());
 
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
@@ -214,7 +214,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var rumorResult = await http.GetAsync("rumor/" + id);
+                var rumorResult = await http.GetAsync("rumor/getById/" + id.ToString());
 
                 if (rumorResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -229,7 +229,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                     // API'ye güncellenmiş veriyi gönder
-                    var updateResult = await http.PutAsync("rumor/" + id.ToString(), content);
+                    var updateResult = await http.PutAsync("rumor/edit/" + id.ToString(), content);
                     var error = updateResult.Content.ReadAsStringAsync();
 
                     return RedirectToAction("List");
@@ -265,7 +265,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var rumorResult = await http.GetAsync("rumor/" + id);
+                var rumorResult = await http.GetAsync("rumor/getById/" + id.ToString());
 
 
                 if (rumorResult.StatusCode == System.Net.HttpStatusCode.OK)
@@ -311,7 +311,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                 if (roleClaims != null)
                 {
-                    var rumorResult = await http.GetAsync("rumor/" + id);
+                    var rumorResult = await http.GetAsync("rumor/getById/" + id.ToString());
                     var existing = await rumorResult.Content.ReadAsStringAsync();
                     var existingData = JsonConvert.DeserializeObject<RumorViewModel>(existing);
                     existingData.Title = model.Title;
@@ -319,7 +319,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.Content = model.Content;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result = await http.PutAsync("rumor/" + id.ToString(), content);
+                    var result = await http.PutAsync("rumor/edit/" + id.ToString(), content);
                     var error = result.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -355,12 +355,12 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var rumorResult = await http.GetAsync("rumor/" + id);
+                var rumorResult = await http.GetAsync("rumor/getById/" + id.ToString());
                 var existing = await rumorResult.Content.ReadAsStringAsync();
                 var existingData = JsonConvert.DeserializeObject<RumorViewModel>(existing);
                 if (existingData.IsDeleted)
                 {
-                    var result = await http.DeleteAsync("rumor/" + id.ToString());
+                    var result = await http.DeleteAsync("rumor/delete/" + id.ToString());
                     var error = result.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -370,7 +370,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.IsDeleted = true;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result2 = await http.PutAsync("rumor/" + id.ToString(), content);
+                    var result2 = await http.PutAsync("rumor/edit/" + id.ToString(), content);
                     var error = result2.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -402,7 +402,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var rumorResult = await http.GetAsync("rumor/" + id);
+                var rumorResult = await http.GetAsync("rumor/getById/" + id.ToString());
                 var existing = await rumorResult.Content.ReadAsStringAsync();
                 var existingData = JsonConvert.DeserializeObject<RumorViewModel>(existing);
                 if (existingData.IsDeleted)
@@ -410,7 +410,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.IsDeleted = false;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result2 = await http.PutAsync("rumor/" + id.ToString(), content);
+                    var result2 = await http.PutAsync("rumor/edit/" + id.ToString(), content);
                     var error = result2.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }

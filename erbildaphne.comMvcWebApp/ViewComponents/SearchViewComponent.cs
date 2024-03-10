@@ -22,7 +22,7 @@ namespace erbildaphne.comMvcWebApp.ViewComponents
                 var http = _httpClientFactory.CreateClient("Client");
 
                 // Tüm Articles çek
-                var articleResponse = await http.GetAsync("article");
+                var articleResponse = await http.GetAsync("article/get/");
                 if (articleResponse.IsSuccessStatusCode)
                 {
                     var articleData = await articleResponse.Content.ReadAsStringAsync();
@@ -30,7 +30,7 @@ namespace erbildaphne.comMvcWebApp.ViewComponents
                 }
 
                 // Tüm GNews çek
-                var gNewsResponse = await http.GetAsync("gnews");
+                var gNewsResponse = await http.GetAsync("gnews/get/");
                 if (gNewsResponse.IsSuccessStatusCode)
                 {
                     var gNewsData = await gNewsResponse.Content.ReadAsStringAsync();
@@ -38,7 +38,7 @@ namespace erbildaphne.comMvcWebApp.ViewComponents
                 }
 
                 // Tüm Rumors çek
-                var rumorResponse = await http.GetAsync("rumor");
+                var rumorResponse = await http.GetAsync("rumor/get/");
                 if (rumorResponse.IsSuccessStatusCode)
                 {
                     var rumorData = await rumorResponse.Content.ReadAsStringAsync();

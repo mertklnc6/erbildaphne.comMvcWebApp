@@ -17,7 +17,7 @@ namespace erbildaphne.comMvcWebApp.ViewComponents
         {
             var http = _httpClientFactory.CreateClient("Client");
 
-            var result = await http.GetAsync("source");
+            var result = await http.GetAsync("source/get/");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();

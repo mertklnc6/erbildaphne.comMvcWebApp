@@ -31,8 +31,8 @@ namespace erbildaphne.comMvcWebApp.Controllers
             //var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIm5iZiI6MTY5NzI3NjY2OSwiZXhwIjoxNjk3Mjc2OTY5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0In0.3QCXuBm4zjCJnGIteSsMtY33jUNpnl_MdAJVBLPeCPQ";
             var http = _httpClientFactory.CreateClient("Client");
             //http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var result = await http.GetAsync("secondArticle");
-            var AuthorResult = await http.GetAsync("Author");
+            var result = await http.GetAsync("secondArticle/get/");
+            var AuthorResult = await http.GetAsync("Author/get/");
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
@@ -70,7 +70,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var result = await http.GetAsync("secondArticle");
+                var result = await http.GetAsync("secondArticle/get/");
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var jsonData = await result.Content.ReadAsStringAsync();
@@ -110,7 +110,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var result = await http.GetAsync("Author");
+                var result = await http.GetAsync("Author/get/");
 
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -191,7 +191,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
 
 
-                    var result = await http.PostAsync("secondArticle", content);
+                    var result = await http.PostAsync("secondArticle/create/", content);
 
                     if (result.IsSuccessStatusCode)
                     {
@@ -221,7 +221,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var http = _httpClientFactory.CreateClient("Client");
-            var result = await http.GetAsync("secondArticle" + "/" + id.ToString());
+            var result = await http.GetAsync("secondArticle/getById/" + id.ToString());
             var AuthorResult = await http.GetAsync("Author");
 
 
@@ -262,8 +262,8 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var secondArticleResult = await http.GetAsync("secondArticle/" + id);
-                var AuthorResult = await http.GetAsync("Author");
+                var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
+                var AuthorResult = await http.GetAsync("Author/get/");
 
                 if (secondArticleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -333,7 +333,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                 if (roleClaims != null)
                 {
-                    var secondArticleResult = await http.GetAsync("secondArticle/" + id);
+                    var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
                     var existing = await secondArticleResult.Content.ReadAsStringAsync();
                     var existingData = JsonConvert.DeserializeObject<SecondArticleViewModel>(existing);
                     
@@ -351,7 +351,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result = await http.PutAsync("secondArticle/" + id, content);
+                    var result = await http.PutAsync("secondArticle/edit/" + id.ToString(), content);
                     var error = result.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -388,7 +388,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var secondArticleResult = await http.GetAsync("secondArticle/" + id);
+                var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
 
                 if (secondArticleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -403,7 +403,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                     // API'ye güncellenmiş veriyi gönder
-                    var updateResult = await http.PutAsync("secondArticle/" + id, content);
+                    var updateResult = await http.PutAsync("secondArticle/edit/" + id.ToString(), content);
 
 
                     return RedirectToAction("List");
@@ -439,7 +439,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var secondArticleResult = await http.GetAsync("secondArticle/" + id);
+                var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
 
                 if (secondArticleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -454,7 +454,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                     // API'ye güncellenmiş veriyi gönder
-                    var updateResult = await http.PutAsync("secondArticle/" + id, content);
+                    var updateResult = await http.PutAsync("secondArticle/edit/" + id.ToString(), content);
 
 
                     return RedirectToAction("List");
@@ -489,7 +489,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var secondArticleResult = await http.GetAsync("secondArticle/" + id);
+                var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
 
                 if (secondArticleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -504,7 +504,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                     // API'ye güncellenmiş veriyi gönder
-                    var updateResult = await http.PutAsync("secondArticle/" + id, content);
+                    var updateResult = await http.PutAsync("secondArticle/edit/" + id.ToString(), content);
 
 
                     return RedirectToAction("List");
@@ -541,12 +541,12 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var secondArticleResult = await http.GetAsync("secondArticle/" + id);
+                var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
                 var existing = await secondArticleResult.Content.ReadAsStringAsync();
                 var existingData = JsonConvert.DeserializeObject<SecondArticleViewModel>(existing);
                 if (existingData.IsDeleted)
                 {
-                    var result = await http.DeleteAsync("secondArticle/" + id.ToString());
+                    var result = await http.DeleteAsync("secondArticle/delete/" + id.ToString());
                     var error = result.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -556,7 +556,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.IsDeleted = true;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result2 = await http.PutAsync("secondArticle/" + id, content);
+                    var result2 = await http.PutAsync("secondArticle/edit/" + id.ToString(), content);
                     var error = result2.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
@@ -588,7 +588,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
 
             if (roleClaims != null)
             {
-                var secondArticleResult = await http.GetAsync("secondArticle/" + id);
+                var secondArticleResult = await http.GetAsync("secondArticle/getById/" + id.ToString());
                 var existing = await secondArticleResult.Content.ReadAsStringAsync();
                 var existingData = JsonConvert.DeserializeObject<SecondArticleViewModel>(existing);
                 if (existingData.IsDeleted)
@@ -596,7 +596,7 @@ namespace erbildaphne.comMvcWebApp.Controllers
                     existingData.IsDeleted = false;
                     var jsonContent = JsonConvert.SerializeObject(existingData);
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    var result2 = await http.PutAsync("secondArticle/" + id.ToString(), content);
+                    var result2 = await http.PutAsync("secondArticle/edit/" + id.ToString(), content);
                     var error = result2.Content.ReadAsStringAsync();
                     return RedirectToAction("List");
                 }
